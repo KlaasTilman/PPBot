@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const Response = require('./responseObjects.js');
 const Embeds = require('./embeds.js');
+const Private = require('./private.js');
 const client = new Discord.Client();
 var isReady = true;
 
@@ -88,4 +89,4 @@ client.on('message',message => {
     }
 });
 
-client.login('Mjk5MTY2MTYzMjM2MjkwNTYw.C8bBaQ.KahSc-pcs8r416EuIbJggbAz6lQ');
+client.login(Private.token);
