@@ -81,7 +81,8 @@ exports.voiceObject = {
     "!omgwow": 'omgwow.mp3',
     "!sperdnigga": 'sperdnigga.mp3',
     "!mbaku": 'mbaku.wav',
-    "!meneerdeboer": 'meneerdeboer.wav'
+    "!meneerdeboer": 'meneerdeboer.wav',
+    "!hellothere": 'hellothere.wav'
 };
 
 exports.responseObject = {
@@ -105,7 +106,8 @@ exports.responseObject = {
     "yes pp": "Send `!commands` for a list of commands",
     "regret": "Did you say regret!?",
     "dab": "Did you say dab!?",
-    "!hackerman": "https://giphy.com/gifs/fury-kung-hackerman-QbumCX9HFFDQA"
+    "!hackerman": "https://giphy.com/gifs/fury-kung-hackerman-QbumCX9HFFDQA",
+    "hihi": "met"
 };
 
 exports.imageObject = {
@@ -117,7 +119,9 @@ exports.imageObject = {
     "!nigga": './nigga.png',
     "meirl": './meirl2.png',
     "meirll": './meirl.png',
-    "meirlll": './meirlmerge.jpg'
+    "meirlll": './meirlmerge.jpg',
+    "hihi met": './sisi2.jpg',
+    "hihi": './sisi.png'
 }
 
 exports.embeds = {

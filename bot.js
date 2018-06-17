@@ -5,6 +5,18 @@ const Private = require('./private.js');
 const client = new Discord.Client();
 var isReady = true;
 
+client.on('voiceStateUpdate', (oldMember, newMember) => {
+  let newUserChannel = newMember.voiceChannel
+  let oldUserChannel = oldMember.voiceChannel
+
+
+  if(oldUserChannel === undefined && newUserChannel !== undefined && newUserChannel.name==="General Kenobi" && newMember.user.username!='PPBot') {
+    playVoiceCommand(null, newMember.voiceChannelID, newUserChannel, Response.voiceObject["!hellothere"]);
+  } else if(newUserChannel === undefined){
+    // User leaves a voice channel
+  }
+})
+
 function commandSup(str, msg){
     return msg.content.toLowerCase().startsWith("sup " + str);
 }
@@ -37,6 +49,7 @@ function playVoiceCommand(channel, voiceChannelID, voiceChannel, audioFile) {
             }).catch(err => console.log(err));
         } 
     } else {
+        console.log("dit?");
         channel.send("Please wait for the current voice command to end.");
     }
 }
@@ -62,6 +75,7 @@ function sendEmbed(channel, embed) {
 
 client.on('ready', () => {
     console.log('The awesome bot made by Klaas Tilman is now online! Woahahoah');
+    client.user.setActivity('!commands', { type: 'PLAYING' });
 });
 
 client.on('message',message => {

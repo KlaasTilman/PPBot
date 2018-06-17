@@ -40,7 +40,7 @@ exports.allCommands = {embed: {
         },
         {
             name: "Meme",
-            value: "pancake, whoops, magnumdong, gotem, poep, glitter, lidl, wahahou, chocola, tongue, biem, like, hello, uhm, sperdnigga"
+            value: "pancake, whoops, magnumdong, gotem, poep, glitter, lidl, wahahou, chocola, tongue, biem, like, hello, uhm, sperdnigga, hellothere"
         },
         {
             name: "Funny 😂",
@@ -48,7 +48,7 @@ exports.allCommands = {embed: {
         },
         {
             name: "Chat commands",
-            value: "ayy, wat, lol, ping, pong, pief, paf, sup, regret, help, dab, nigga, really nigga"
+            value: "ayy, wat, lol, ping, pong, pief, paf, sup, regret, help, dab, nigga, really nigga, hihi, hihi met"
         },
         {
             name: "Chat commands (!)",
@@ -79,7 +79,7 @@ exports.chatCommands = {embed: {
         },
         {
             name: "Images/Gifs",
-            value: "niceshot, regret, nigga, hackerman"
+            value: "niceshot, regret, nigga, hackerman, hihi, hihi met"
         }
         ],
         footer: {
@@ -114,7 +114,7 @@ exports.voiceCommands = {embed: {
         },
         {
             name: "Meme",
-            value: "pancake, whoops, magnumdong, gotem, poep, glitter, lidl, wahahou, chocola, tongue, biem, like, hello, uhm, sperdnigga"
+            value: "pancake, whoops, magnumdong, gotem, poep, glitter, lidl, wahahou, chocola, tongue, biem, like, hello, uhm, sperdnigga, hellothere"
         },
         {
             name: "Funny 😂",
