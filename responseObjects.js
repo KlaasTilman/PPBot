@@ -82,7 +82,29 @@ exports.voiceObject = {
     "!sperdnigga": 'sperdnigga.mp3',
     "!mbaku": 'mbaku.wav',
     "!meneerdeboer": 'meneerdeboer.wav',
-    "!hellothere": 'hellothere.wav'
+    "!hellothere": 'hellothere.wav',
+    "!running": 'running.mp3',
+    "!cyka": 'cyka.wav',
+    "!verkeerd": 'verkeerd.wav',
+    "!klaas": 'klaas.wav',
+    "!sjoerd": 'sjoerd.wav',
+    "!wout": 'wout.wav',
+    "!bush": 'bush.wav',
+    "!familiar": 'familiar.wav',
+    "!freedom": 'freedom.wav',
+    "!perfect": 'perfect.wav',
+    "!kind": 'kind.wav',
+    "!communicate": 'communicate.wav',
+    "!mad": 'mad.wav',
+    "!seatbelts": 'seatbelts.wav',
+    "!roads": 'roads.wav',
+    "!shirley": 'shirley.wav',
+    "!friendship": 'friendship.wav',
+    "!prepare": 'prepare.wav',
+    "!goodbye2": 'goodbye2.wav',
+    "!goodbye3": 'goodbye3.wav',
+    "!goodbye4": 'goodbye4.wav',
+    "!goodbye5": 'goodbye5.wav'
 };
 
 exports.responseObject = {
@@ -122,6 +144,12 @@ exports.imageObject = {
     "meirlll": './meirlmerge.jpg',
     "hihi met": './sisi2.jpg',
     "hihi": './sisi.png'
+}
+
+exports.emojiObject = {
+    "gotem": "457243138617245717",
+    "yeah": "458285126883999745",
+    "perfectly balanced": "459295496255569970"
 }
 
 exports.embeds = {

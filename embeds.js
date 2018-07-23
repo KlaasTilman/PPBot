@@ -15,16 +15,18 @@ exports.commands = {
     }
 }
 
-exports.allCommands = {embed: {
-        color: 3447003,
-        author: {
-            name: "",
-            icon_url: ""
+exports.allFields = [
+        {
+            name: "Recently added 🆕",
+            value: "goodbye2, goodbye3, goodbye4, goodbye 5, prepare, friendship, shirley, roads, seatbelts, mad, communicate, kind, perfect, freedom, familiar, bush, cyka"
         },
-        description: "The awesome bot Ping Pong!",
-        fields: [{
+        {
             name: "Reaction 😯",
-            value: "niet, cant, die, badum, nexttime, no, lying, myself, houston, try, tears, shots, wtf, rustaagh, nigga, trombone, river, hehe, whatyoudoing, dontthinkso, ruined, omgwow, mbaku, meneerdeboer"
+            value: "niet, cant, die, badum, nexttime, no, lying, myself, houston, try, tears, shots, wtf, rustaagh, nigga, trombone, river, hehe, whatyoudoing, dontthinkso, omgwow, mbaku, verkeerd, mad"
+        },
+        {
+            name: "Fortnite :regional_indicator_f:",
+            value: "bush, running, ruined, meneerdeboer, prepare, roads, seatbelts, communicate"
         },
         {
             name: "Rocket League 🚙💥",
@@ -32,29 +34,43 @@ exports.allCommands = {embed: {
         },
         {
             name: "Motivation 💪",
-            value: "together, komtgoed, infinity, never, behappy, mylife, letsdoit, vibeit"
+            value: "together, komtgoed, infinity, never, behappy, mylife, letsdoit, vibeit, friendship, kind, freedom"
         },
         {
             name: "Sad 😭",
-            value: "fine, dumb, killmyself, sad, darkness, rip, missyou, goodbye, endworld, how, rutte, gohome"
+            value: "fine, dumb, killmyself, sad, darkness, rip, missyou, goodbye, endworld, how, rutte, gohome, familiar, perfect, goodbye2, goodbye3, goodbye4, goodbye5"
         },
         {
             name: "Meme",
-            value: "pancake, whoops, magnumdong, gotem, poep, glitter, lidl, wahahou, chocola, tongue, biem, like, hello, uhm, sperdnigga, hellothere"
+            value: "pancake, whoops, magnumdong, gotem, poep, glitter, lidl, wahahou, chocola, tongue, biem, like, hello, uhm, sperdnigga, hellothere, shirley"
         },
         {
             name: "Funny 😂",
-            value: "bingo, steeds, tochniet, alright, profanity, damnson, noone"
+            value: "bingo, steeds, tochniet, alright, profanity, damnson, noone, cyka, klaas, sjoerd, wout"
         },
         {
-            name: "Chat commands",
-            value: "ayy, wat, lol, ping, pong, pief, paf, sup, regret, help, dab, nigga, really nigga, hihi, hihi met"
+            name: "Simple response commands",
+            value: "ayy, wat, lol, ping, pong, pief, paf, sup, regret, help, dab, nigga, really nigga"
         },
         {
-            name: "Chat commands (!)",
-            value: "test, niceshot, help, regret, nigga, hackerman"
+            name: "Bot",
+            value: "test, help, commands, all, voicechat, chat"
+        },
+        {
+            name: "Images/Gifs",
+            value: "niceshot, regret, nigga, hackerman, hihi, hihi met"
         }
-        ],
+        ]
+
+exports.allCommands = {embed: {
+        color: 3447003,
+        author: {
+            name: "",
+            icon_url: ""
+        },
+        description: "The awesome bot Ping Pong!",
+        title: "All amazing commands",
+        fields: [],
         footer: {
             icon_url: "",
             text: "© Klaas Tilman",
@@ -69,19 +85,7 @@ exports.chatCommands = {embed: {
             icon_url: ""
         },
         title: "All chat commands",
-        fields: [{
-            name: "Simple response commands",
-            value: "ayy, wat, lol, ping, pong, pief, paf, sup, regret, help, dab, nigga, really nigga"
-        },
-        {
-            name: "Bot",
-            value: "test, help, commands, all, voicechat, chat"
-        },
-        {
-            name: "Images/Gifs",
-            value: "niceshot, regret, nigga, hackerman, hihi, hihi met"
-        }
-        ],
+        fields: [],
         footer: {
             icon_url: "",
             text: "© Klaas Tilman",
@@ -96,31 +100,7 @@ exports.voiceCommands = {embed: {
             icon_url: ""
         },
         title: "All voice commands",
-        fields: [{
-            name: "Reaction 😯",
-            value: "niet, cant, die, badum, nexttime, no, lying, myself, houston, try, tears, shots, wtf, rustaagh, nigga, trombone, river, hehe, whatyoudoing, dontthinkso, ruined, omgwow, mbaku, meneerdeboer"
-        },
-        {
-            name: "Rocket League 🚙💥",
-            value: "kapitein, freestyler, dunked, smooth, herewego, start, skill, mission, tadaah, pressure, happened, duuun, gratis"
-        },
-        {
-            name: "Motivation 💪",
-            value: "together, komtgoed, infinity, never, behappy, mylife, letsdoit, vibeit"
-        },
-        {
-            name: "Sad 😭",
-            value: "fine, dumb, killmyself, sad, darkness, rip, missyou, goodbye, endworld, how, rutte, gohome"
-        },
-        {
-            name: "Meme",
-            value: "pancake, whoops, magnumdong, gotem, poep, glitter, lidl, wahahou, chocola, tongue, biem, like, hello, uhm, sperdnigga, hellothere"
-        },
-        {
-            name: "Funny 😂",
-            value: "bingo, steeds, tochniet, alright, profanity, damnson, noone"
-        }
-        ],
+        fields: [],
         footer: {
             icon_url: "",
             text: "© Klaas Tilman",
