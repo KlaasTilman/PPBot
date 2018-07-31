@@ -104,7 +104,8 @@ exports.voiceObject = {
     "!goodbye2": 'goodbye2.wav',
     "!goodbye3": 'goodbye3.wav',
     "!goodbye4": 'goodbye4.wav',
-    "!goodbye5": 'goodbye5.wav'
+    "!goodbye5": 'goodbye5.wav',
+    "!anotherone": 'anotherone.wav'
 };
 
 exports.responseObject = {

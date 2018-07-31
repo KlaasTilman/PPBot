@@ -18,7 +18,7 @@ exports.commands = {
 exports.allFields = [
         {
             name: "Recently added 🆕",
-            value: "goodbye2, goodbye3, goodbye4, goodbye 5, prepare, friendship, shirley, roads, seatbelts, mad, communicate, kind, perfect, freedom, familiar, bush, cyka"
+            value: "anotherone, goodbye2, goodbye3, goodbye4, goodbye 5, prepare, friendship, shirley, roads, seatbelts, mad, communicate, kind, perfect, freedom, familiar, bush, cyka"
         },
         {
             name: "Reaction 😯",
@@ -26,7 +26,7 @@ exports.allFields = [
         },
         {
             name: "Fortnite :regional_indicator_f:",
-            value: "bush, running, ruined, meneerdeboer, prepare, roads, seatbelts, communicate"
+            value: "bush, running, ruined, meneerdeboer, prepare, roads, seatbelts, communicate, anotherone"
         },
         {
             name: "Rocket League 🚙💥",
