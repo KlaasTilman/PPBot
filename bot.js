@@ -170,11 +170,11 @@ client.on('voiceStateUpdate', async (oldMember, newMember) => {
   let oldUserChannel = oldMember.voiceChannel
   if(oldUserChannel === undefined && newUserChannel !== undefined && newMember.user.bot===false) {
       if (newMember.user.username==="Klaas") {
-          await handleVideo(Response.voiceObject["!klaas"], null, newMember.voiceChannel, newMember.guild);
+          await handleVideo(Response.voiceObject["!klaas"]["file"], null, newMember.voiceChannel, newMember.guild);
       } else if (newMember.user.username==="sperd") {
-          await handleVideo(Response.voiceObject["!sjoerd"], null, newMember.voiceChannel, newMember.guild);
+          await handleVideo(Response.voiceObject["!sjoerd"]["file"], null, newMember.voiceChannel, newMember.guild);
       } else if (newMember.user.username==="Kizerain") {
-          await handleVideo(Response.voiceObject["!wout"], null, newMember.voiceChannel, newMember.guild);
+          await handleVideo(Response.voiceObject["!wout"]["file"], null, newMember.voiceChannel, newMember.guild);
       } else if (newUserChannel.name==="General Kenobi") {
           await handleVideo(Response.voiceObject["!hellothere"], null, newMember.voiceChannel, newMember.guild);
       }
@@ -204,24 +204,6 @@ function ttsBot(message, args) {
     }
 }
 
-/*function playVoiceCommand(channel, voiceChannelID, voiceChannel, audioFile) {
-    if (isReady) {
-        if (voiceChannelID==null) {
-            channel.sendMessage('You have to be in a voice chat to use this command.')
-        } else if (isReady) {
-            isReady=false;
-            voiceChannel.join().then(connection =>{
-                const dispatcher=connection.playFile('./Voice files/'+audioFile);
-                dispatcher.on("end", end => {voiceChannel.leave();
-                isReady=true;});
-            }).catch(err => console.log(err));
-        } 
-    } else if (channel!=null) {
-        console.log("dit?");
-        channel.send("Please wait for the current voice command to end.");
-    }
-} */
-
 function sendChatCommand(channel, chatMessage) {
     channel.send(chatMessage);
 }
@@ -246,9 +228,39 @@ function sendEmbed(channel, embed) {
     channel.send(embed);
 }
 
+var categories = {
+    "Recently added 🆕": [],
+    "Reaction 😯": [],
+    "Fortnite :regional_indicator_f:": [],
+    "Rocket League 🚙💥": [],
+    "Motivation 💪": [],
+    "Sad 😭": [],
+    "Meme": [],
+    "Funny 😂": [],
+    "Simple response commands": []
+};
+var fortniteCategories = {
+    "beforeMatch": [],
+    "afterLose": [],
+    "afterWin": []
+};
+
+function makeResponseArrays() {
+    var voiceObjectKeys=Object.keys(Response.voiceObject);
+    for (var i=0; i<voiceObjectKeys.length; i++) {
+        for (var j=0; j<Response.voiceObject[voiceObjectKeys[i]]['categories'].length; j++) {
+            categories[Response.voiceObject[voiceObjectKeys[i]]['categories'][j]].push(voiceObjectKeys[i]);
+        }
+        for (var j=0; j<Response.voiceObject[voiceObjectKeys[i]]['categoriesFortnite'].length; j++) {
+            fortniteCategories[Response.voiceObject[voiceObjectKeys[i]]['categoriesFortnite'][j]].push(voiceObjectKeys[i]);
+        }
+    }
+}
+
 client.on('ready', () => {
     console.log('The awesome bot made by Klaas Tilman is now online! Woahahoah');
     client.user.setActivity('!commands', { type: 'PLAYING' });
+    makeResponseArrays();
     resetEmbeds();
     initialise();
 });
@@ -267,7 +279,11 @@ client.on('message',async message => {
     }
     // Voice commands
     if (Response.voiceObject[messageLC] || messageLC==="!skip" || messageLC==="!stop" || messageLC==="!queue" || messageLC==="!np" || messageLC==="!pause" || messageLC==="!resume") {
-        playVoiceCommand(message, Response.voiceObject[messageLC], messageLC);
+        if (Response.voiceObject[messageLC]!=undefined) {
+            playVoiceCommand(message, Response.voiceObject[messageLC]["file"], messageLC);
+        } else {
+            playVoiceCommand(message, Response.voiceObject[messageLC], messageLC);
+        }
     }
     // Emoji responds
     if (Response.emojiObject[messageLC]) {
@@ -280,6 +296,23 @@ client.on('message',async message => {
     if(messageLC.includes("ping pong")) {
         console.log("Bot was mentioned");
         message.channel.send("Say what?",{tts:true});
+    }
+
+    // Randomizer
+    if (messageLC==="!afterlose") {
+        var randomItem = fortniteCategories["afterLose"][Math.floor(Math.random()*fortniteCategories["afterLose"].length)]
+        console.log(Math.random()*fortniteCategories["afterLose"].length);
+        console.log(fortniteCategories["afterLose"].length);
+        console.log(randomItem);
+        playVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem);
+    }
+    if (messageLC==="!afterwin") {
+        var randomItem = fortniteCategories["afterWin"][Math.floor(Math.random()*fortniteCategories["afterWin"].length)]
+        playVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem);
+    }
+    if (messageLC==="!beforematch") {
+        var randomItem = fortniteCategories["beforeMatch"][Math.floor(Math.random()*fortniteCategories["beforeMatch"].length)]
+        playVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem);
     }
 });
 

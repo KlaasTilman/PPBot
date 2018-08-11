@@ -5,7 +5,7 @@ exports.commands = {
             name: "",
             icon_url: ""
         },
-        description: "Send `!all` for all commands\n Send `!voicechat` for all voicechat commands \n Send `!chat` for all chat commands!",
+        description: "Send `!all` for all commands\n Send `!voicechat` for all voicechat commands \n Send `!chat` for all chat commands! \n Send `!fortnite` for all fortnite commands!",
         title: "Documentation",
         url: "https://github.com/KlaasTilman/DiscordPPBot",
         footer: {
@@ -18,15 +18,15 @@ exports.commands = {
 exports.allFields = [
         {
             name: "Recently added 🆕",
-            value: "anotherone, goodbye2, goodbye3, goodbye4, goodbye 5, prepare, friendship, shirley, roads, seatbelts, mad, communicate, kind, perfect, freedom, familiar, bush, cyka"
+            value: "hallo, run, leftchat, mahboi, liefde, anotherone, goodbye2, goodbye3, goodbye4, goodbye 5, prepare, friendship, shirley, roads, seatbelts, mad, communicate, kind, perfect, freedom, familiar, bush, cyka"
         },
         {
             name: "Reaction 😯",
-            value: "niet, cant, die, badum, nexttime, no, lying, myself, houston, try, tears, shots, wtf, rustaagh, nigga, trombone, river, hehe, whatyoudoing, dontthinkso, omgwow, mbaku, verkeerd, mad"
+            value: "niet, cant, die, badum, nexttime, no, lying, myself, houston, try, tears, shots, wtf, rustaagh, nigga, trombone, river, hehe, whatyoudoing, dontthinkso, omgwow, mbaku, verkeerd, mad, leftchat"
         },
         {
             name: "Fortnite :regional_indicator_f:",
-            value: "bush, running, ruined, meneerdeboer, prepare, roads, seatbelts, communicate, anotherone"
+            value: "bush, running, ruined, meneerdeboer, prepare, roads, seatbelts, communicate, anotherone, run"
         },
         {
             name: "Rocket League 🚙💥",
@@ -34,11 +34,11 @@ exports.allFields = [
         },
         {
             name: "Motivation 💪",
-            value: "together, komtgoed, infinity, never, behappy, mylife, letsdoit, vibeit, friendship, kind, freedom"
+            value: "together, komtgoed, infinity, never, behappy, mylife, letsdoit, vibeit, friendship, kind, freedom, mahboi, hallo"
         },
         {
             name: "Sad 😭",
-            value: "fine, dumb, killmyself, sad, darkness, rip, missyou, goodbye, endworld, how, rutte, gohome, familiar, perfect, goodbye2, goodbye3, goodbye4, goodbye5"
+            value: "fine, dumb, killmyself, sad, darkness, rip, missyou, goodbye, endworld, how, rutte, gohome, familiar, perfect, goodbye2, goodbye3, goodbye4, goodbye5, liefde"
         },
         {
             name: "Meme",
