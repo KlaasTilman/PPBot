@@ -149,9 +149,8 @@ function resetEmbeds() {
     Embeds.voiceCommands['embed']['fields']=[];
 }
 
-//////////
 function initialise() {
-    Embeds.allCommands['embed']['fields']=Embeds.allFields
+    Embeds.allCommands['embed']['fields']=Embeds.allFields;
     var name;
     for (var i=0; i<Embeds.allFields.length; i++) {
         name=Embeds.allFields[i]['name'];
@@ -166,23 +165,35 @@ function initialise() {
 }
 
 client.on('voiceStateUpdate', async (oldMember, newMember) => {
+  let randomVoiceCommand = ["!hellothere", "!hallo", "!jeff", "!flip", "!klokhuis"];
   let newUserChannel = newMember.voiceChannel
   let oldUserChannel = oldMember.voiceChannel
   if(oldUserChannel === undefined && newUserChannel !== undefined && newMember.user.bot===false) {
       if (newMember.user.username==="Klaas") {
-          await handleVideo(Response.voiceObject["!klaas"]["file"], null, newMember.voiceChannel, newMember.guild);
+            let arrayName = randomVoiceCommand;
+            arrayName.push("!klaas");
+            var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
+            await handleVideo(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
       } else if (newMember.user.username==="sperd") {
-          await handleVideo(Response.voiceObject["!sjoerd"]["file"], null, newMember.voiceChannel, newMember.guild);
+            let arrayName = randomVoiceCommand;
+            arrayName.push("!sjoerd");
+            var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
+            await handleVideo(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
       } else if (newMember.user.username==="Kizerain") {
-          await handleVideo(Response.voiceObject["!wout"]["file"], null, newMember.voiceChannel, newMember.guild);
+            let arrayName = randomVoiceCommand;
+            arrayName.push("!wout");
+            var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
+            await handleVideo(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
       } else if (newUserChannel.name==="General Kenobi") {
-          await handleVideo(Response.voiceObject["!hellothere"], null, newMember.voiceChannel, newMember.guild);
+          var rand = randomVoiceCommand[Math.floor(Math.random() * randomVoiceCommand.length)];
+          await handleVideo(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
       }
   } else if(newUserChannel === undefined && newMember.user.bot===false){
       // User leaves a voice channel
   } else if(newUserChannel!=oldUserChannel && newMember.user.bot===false) {
       // User changes voice channel 
   }
+
 })
 
 function commandSup(str, msg){
@@ -199,7 +210,7 @@ function ttsBot(message, args) {
         if(args.length===1) {
             message.channel.sendMessage('(Idiot). Usage: !say [message to say].');
         } else {
-            message.channel.sendMessage(args.join(" ").substring(5),{tts:true});
+            message.channel.sendMessage(args.join(" ").substring(5),{tts:false});
         }
     }
 }
@@ -231,13 +242,11 @@ function sendEmbed(channel, embed) {
 var categories = {
     "Recently added 🆕": [],
     "Reaction 😯": [],
-    "Fortnite :regional_indicator_f:": [],
-    "Rocket League 🚙💥": [],
+    "Gamen :video_game:": [],
     "Motivation 💪": [],
     "Sad 😭": [],
     "Meme": [],
     "Funny 😂": [],
-    "Simple response commands": []
 };
 var fortniteCategories = {
     "beforeMatch": [],
@@ -249,7 +258,11 @@ function makeResponseArrays() {
     var voiceObjectKeys=Object.keys(Response.voiceObject);
     for (var i=0; i<voiceObjectKeys.length; i++) {
         for (var j=0; j<Response.voiceObject[voiceObjectKeys[i]]['categories'].length; j++) {
-            categories[Response.voiceObject[voiceObjectKeys[i]]['categories'][j]].push(voiceObjectKeys[i]);
+            if (i==0) {
+                categories[Response.voiceObject[voiceObjectKeys[i]]['categories'][j]].push(voiceObjectKeys[i].substring(1));
+            } else {
+                categories[Response.voiceObject[voiceObjectKeys[i]]['categories'][j]].push(" "+voiceObjectKeys[i].substring(1));
+            }
         }
         for (var j=0; j<Response.voiceObject[voiceObjectKeys[i]]['categoriesFortnite'].length; j++) {
             fortniteCategories[Response.voiceObject[voiceObjectKeys[i]]['categoriesFortnite'][j]].push(voiceObjectKeys[i]);
@@ -257,11 +270,38 @@ function makeResponseArrays() {
     }
 }
 
+function initialiseAllEmbeds() {
+    var categoriesKeys=Object.keys(categories);
+    for (var i=0; i<categoriesKeys.length; i++) {
+        Embeds.allFields.push(
+            {
+                name: categoriesKeys[i],
+                value: categories[categoriesKeys[i]].reverse().toString()
+            }
+        );
+    }
+    Embeds.allFields.push({
+        name: "Simple response commands",
+        value: "ayy, wat, lol, ping, pong, pief, paf, sup, regret, help, dab, nigga, really nigga"
+    })
+    Embeds.allFields.push(
+    {
+        name: "Bot",
+        value: "test, help, commands, all, voicechat, chat, fortnite"
+    })
+    Embeds.allFields.push(
+    {
+        name: "Images/Gifs",
+        value: "niceshot, regret, nigga, hackerman, hihi, hihi met"
+    })
+}
+
 client.on('ready', () => {
     console.log('The awesome bot made by Klaas Tilman is now online! Woahahoah');
     client.user.setActivity('!commands', { type: 'PLAYING' });
     makeResponseArrays();
     resetEmbeds();
+    initialiseAllEmbeds();
     initialise();
 });
 
@@ -314,6 +354,7 @@ client.on('message',async message => {
         var randomItem = fortniteCategories["beforeMatch"][Math.floor(Math.random()*fortniteCategories["beforeMatch"].length)]
         playVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem);
     }
+    console.log(message.content);
 });
 
 client.login(Private.token);

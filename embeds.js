@@ -15,52 +15,7 @@ exports.commands = {
     }
 }
 
-exports.allFields = [
-        {
-            name: "Recently added 🆕",
-            value: "hallo, run, leftchat, mahboi, liefde, anotherone, goodbye2, goodbye3, goodbye4, goodbye 5, prepare, friendship, shirley, roads, seatbelts, mad, communicate, kind, perfect, freedom, familiar, bush, cyka"
-        },
-        {
-            name: "Reaction 😯",
-            value: "niet, cant, die, badum, nexttime, no, lying, myself, houston, try, tears, shots, wtf, rustaagh, nigga, trombone, river, hehe, whatyoudoing, dontthinkso, omgwow, mbaku, verkeerd, mad, leftchat"
-        },
-        {
-            name: "Fortnite :regional_indicator_f:",
-            value: "bush, running, ruined, meneerdeboer, prepare, roads, seatbelts, communicate, anotherone, run"
-        },
-        {
-            name: "Rocket League 🚙💥",
-            value: "kapitein, freestyler, dunked, smooth, herewego, start, skill, mission, tadaah, pressure, happened, duuun, gratis"
-        },
-        {
-            name: "Motivation 💪",
-            value: "together, komtgoed, infinity, never, behappy, mylife, letsdoit, vibeit, friendship, kind, freedom, mahboi, hallo"
-        },
-        {
-            name: "Sad 😭",
-            value: "fine, dumb, killmyself, sad, darkness, rip, missyou, goodbye, endworld, how, rutte, gohome, familiar, perfect, goodbye2, goodbye3, goodbye4, goodbye5, liefde"
-        },
-        {
-            name: "Meme",
-            value: "pancake, whoops, magnumdong, gotem, poep, glitter, lidl, wahahou, chocola, tongue, biem, like, hello, uhm, sperdnigga, hellothere, shirley"
-        },
-        {
-            name: "Funny 😂",
-            value: "bingo, steeds, tochniet, alright, profanity, damnson, noone, cyka, klaas, sjoerd, wout"
-        },
-        {
-            name: "Simple response commands",
-            value: "ayy, wat, lol, ping, pong, pief, paf, sup, regret, help, dab, nigga, really nigga"
-        },
-        {
-            name: "Bot",
-            value: "test, help, commands, all, voicechat, chat"
-        },
-        {
-            name: "Images/Gifs",
-            value: "niceshot, regret, nigga, hackerman, hihi, hihi met"
-        }
-        ]
+exports.allFields = []
 
 exports.allCommands = {embed: {
         color: 3447003,
