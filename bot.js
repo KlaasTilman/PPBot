@@ -354,7 +354,22 @@ client.on('message',async message => {
         var randomItem = fortniteCategories["beforeMatch"][Math.floor(Math.random()*fortniteCategories["beforeMatch"].length)]
         playVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem);
     }
-    console.log(message.content);
+    //console.log(message.embeds);
+    //console.log(message.embeds[0].title);
+    if (message.embeds[0]!=undefined && message.embeds[0].title=='‌‌A wild pokémon has appeared!') {
+        console.log(
+            "Pokemon appeared\n"+
+            message.embeds[0].image.url
+        );
+        responseWithEmoji(message, Response.emojiObject["noanime"]);
+        responseWithEmoji(message, Response.emojiObject["aw_yeah"]);
+        responseWithEmoji(message, Response.emojiObject["heyguys"]);
+        responseWithEmoji(message, Response.emojiObject["pikachu"]);
+        responseWithEmoji(message, Response.emojiObject["hmMMM"]);
+    }
+    /*message.guild.emojis.forEach(function(element) {
+        console.log(element.name+element.id);
+    });*/ 
 });
 
 client.login(Private.token);
