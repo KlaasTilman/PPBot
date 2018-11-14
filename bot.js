@@ -14,6 +14,12 @@ client.on('warn', console.warn);
 
 client.on('error', console.error);
 
+client.on('message', message=> {
+    if (message.isMentioned(client.user)) {
+    message.reply('Hello there! Simply sent `!pp` `!commands` or `!help` for some more information :smiley:!');
+}
+});
+
 /* Function that executes voice command when someone enters the a voice channel */
 client.on('voiceStateUpdate', async (oldMember, newMember) => {
   let randomVoiceCommand = ["!hellothere", "!hallo", "!jeff", "!flip", "!klokhuis"];
