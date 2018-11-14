@@ -5,7 +5,7 @@ exports.commands = {
             name: "",
             icon_url: ""
         },
-        description: "Send `!all` for all commands\n Send `!voicechat` for all voicechat commands \n Send `!chat` for all chat commands! \n Send `!fortnite` for all fortnite commands!",
+        description: "PPBot is an AMAZING voice command bot with a few simple chat commands.\n\n Voice commands can only be used when you are in a voicechat. \n\n Send `!all` for all commands\n Send `!voicechat` for all voicechat commands \n Send `!chat` for all chat commands! \n Send `!fortnite` for all randomizer fortnite commands!",
         title: "Documentation",
         url: "https://github.com/KlaasTilman/DiscordPPBot",
         footer: {

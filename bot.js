@@ -2,12 +2,10 @@ const Discord = require('discord.js');
 const Response = require('./responseObjects.js');
 const Embeds = require('./embeds.js');
 const Private = require('./private.js');
+const Handling = require('./handling.js');
 const client = new Discord.Client();
-var isReady = true;
-var doneInitializing = false;
 
-const queue = new Map();
-
+/* All listeners */
 client.on('disconnect', () => console.log('I just disconnected, making sure you know, I will reconnect now...'));
 
 client.on('reconnecting', () => console.log('I am reconnecting now!'));
@@ -16,177 +14,32 @@ client.on('warn', console.warn);
 
 client.on('error', console.error);
 
-////////////////
-
-async function playVoiceCommand(msg, audioFile, command) { // eslint-disable-line
-	if (msg.author.bot) return undefined;
-	const serverQueue = queue.get(msg.guild.id);
-	const voiceChannel = msg.member.voiceChannel;
-	if (command === '!skip') {
-		if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
-		if (!serverQueue) return msg.channel.send('There is nothing playing that I could skip for you.');
-		serverQueue.connection.dispatcher.end('Skip command has been used!');
-		return undefined;
-	} else if (command === '!stop') {
-		if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
-		if (!serverQueue) return msg.channel.send('There is nothing playing that I could stop for you.');
-		serverQueue.songs = [];
-		serverQueue.connection.dispatcher.end('Stop command has been used!');
-		return undefined;
-	/*} else if (command === 'volume') {
-		if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
-		if (!serverQueue) return msg.channel.send('There is nothing playing.');
-		if (!args[1]) return msg.channel.send(`The current volume is: **${serverQueue.volume}**`);
-		serverQueue.volume = args[1];
-		serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 5);
-		return msg.channel.send(`I set the volume to: **${args[1]}**`);*/
-	} else if (command === '!np') {
-		if (!serverQueue) return msg.channel.send('There is nothing playing.');
-		return msg.channel.send(`🎶 Now playing: **${serverQueue.songs[0]}**`);
-	} else if (command === '!queue') {
-		if (!serverQueue) return msg.channel.send('There is nothing playing.');
-		return msg.channel.send(`
-__**Song queue:**__
-${serverQueue.songs.map(song => `**-** ${song}`).join('\n')}
-**Now playing:** ${serverQueue.songs[0]}
-		`);
-	} else if (command === '!pause') {
-		if (serverQueue && serverQueue.playing) {
-			serverQueue.playing = false;
-			serverQueue.connection.dispatcher.pause();
-			return msg.channel.send('⏸ Paused the music for you!');
-		}
-		return msg.channel.send('There is nothing playing.');
-	} else if (command === '!resume') {
-		if (serverQueue && !serverQueue.playing) {
-			serverQueue.playing = true;
-			serverQueue.connection.dispatcher.resume();
-			return msg.channel.send('▶ Resumed the music for you!');
-		}
-		return msg.channel.send('There is nothing playing.');
-	}
-    if (!voiceChannel) return msg.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
-	const permissions = voiceChannel.permissionsFor(msg.client.user);
-	if (!permissions.has('CONNECT')) {
-		return msg.channel.send('I cannot connect to your voice channel, make sure I have the proper permissions!');
-	}
-	if (!permissions.has('SPEAK')) {
-		return msg.channel.send('I cannot speak in this voice channel, make sure I have the proper permissions!');
-	}
-	await handleVideo(audioFile, msg, voiceChannel);
-	return undefined;
-}
-
-async function handleVideo(song, msg, voiceChannel, guild) {
-    var serverQueue;
-    if (msg) {
-        serverQueue = queue.get(msg.guild.id);
-    } else {
-        serverQueue = queue.get(guild.id);
-    }
-	if (!serverQueue) {
-		const queueConstruct = {
-			//textChannel: msg.channel,
-			voiceChannel: voiceChannel,
-			connection: null,
-			songs: [],
-			volume: 5,
-			playing: true
-		};
-        if (msg) {
-		    queue.set(msg.guild.id, queueConstruct);
-        } else {
-            queue.set(guild.id, queueConstruct);
-        }
-
-		queueConstruct.songs.push(song);
-		try {
-			var connection = await voiceChannel.join();
-			queueConstruct.connection = connection;
-            if (msg) {
-			    play(msg.guild, queueConstruct.songs[0]);
-            } else {
-                play(guild, queueConstruct.songs[0]);
-            }
-		} catch (error) {
-			console.error(`I could not join the voice channel: ${error}`);
-            if (msg) {
-			    queue.delete(msg.guild.id);
-            } else {
-                queue.delete(guild.id);
-            }
-			return msg.channel.send(`I could not join the voice channel: ${error}`);
-		}
-	} else {
-		serverQueue.songs.push(song);
-		console.log(serverQueue.songs);
-		//return msg.channel.send(`✅ **${song}** has been added to the queue!`);
-	}
-	return undefined;
-}
-
-function play(guild, song) {
-	const serverQueue = queue.get(guild.id);
-
-	if (!song) {
-		serverQueue.voiceChannel.leave();
-		queue.delete(guild.id);
-		return;
-	}
-	
-	const dispatcher=serverQueue.connection.playFile('./Voice files/'+song);
-	dispatcher.on("end", end => {
-		serverQueue.songs.shift();
-		play(guild, serverQueue.songs[0])
-	});
-	dispatcher.on('error', error => console.log(error));
-	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-	//serverQueue.textChannel.send(`🎶 Start playing: **${song}**`);
-}
-
-function resetEmbeds() {
-    Embeds.chatCommands['embed']['fields']=[];
-    Embeds.voiceCommands['embed']['fields']=[];
-}
-
-function initialise() {
-    Embeds.allCommands['embed']['fields']=Embeds.allFields;
-    var name;
-    for (var i=0; i<Embeds.allFields.length; i++) {
-        name=Embeds.allFields[i]['name'];
-        if (name==="Simple response commands") {
-            break;
-        }
-        Embeds.voiceCommands['embed']['fields'].push(Embeds.allFields[i]);
-    }
-    for (var i=7; i<Embeds.allFields.length; i++) {
-        Embeds.chatCommands['embed']['fields'].push(Embeds.allFields[i]);
-    }
-}
-
+/* Function that executes voice command when someone enters the a voice channel */
 client.on('voiceStateUpdate', async (oldMember, newMember) => {
   let randomVoiceCommand = ["!hellothere", "!hallo", "!jeff", "!flip", "!klokhuis"];
   let newUserChannel = newMember.voiceChannel
   let oldUserChannel = oldMember.voiceChannel
   if(oldUserChannel === undefined && newUserChannel !== undefined && newMember.user.bot===false) {
-      if (newMember.user.username==="Klaas") {
+      if (getToday()=='Wednesday') {
+          await Handling.handleFile(Response.voiceObject["!wednesday"]["file"], null, newMember.voiceChannel, newMember.guild);
+      } else if (newMember.user.username==="Klaas") {
             let arrayName = randomVoiceCommand;
             arrayName.push("!klaas");
             var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
-            await handleVideo(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
+            await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
       } else if (newMember.user.username==="sperd") {
             let arrayName = randomVoiceCommand;
             arrayName.push("!sjoerd");
             var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
-            await handleVideo(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
+            await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
       } else if (newMember.user.username==="Kizerain") {
             let arrayName = randomVoiceCommand;
             arrayName.push("!wout");
             var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
-            await handleVideo(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
-      } else if (newUserChannel.name==="General Kenobi") {
+            await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
+      } else {
           var rand = randomVoiceCommand[Math.floor(Math.random() * randomVoiceCommand.length)];
-          await handleVideo(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
+          await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
       }
   } else if(newUserChannel === undefined && newMember.user.bot===false){
       // User leaves a voice channel
@@ -195,9 +48,13 @@ client.on('voiceStateUpdate', async (oldMember, newMember) => {
   }
 
 })
+/* All listeners above */
 
-function commandSup(str, msg){
-    return msg.content.toLowerCase().startsWith("sup " + str);
+/* Basic functions */
+function getToday(){
+    let today = new Date();
+    let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Friday'];
+    return days[today.getDay()-1];
 }
 
 function commandSay(str, msg){
@@ -228,16 +85,14 @@ function responseWithEmoji(message, emojiCode) {
     .catch(console.error);
 }
 
-function initializeEmbedFields(embed) {
-    embed['embed']['author']['name']=client.user.username;
-    embed['embed']['author']['icon_url']=client.user.avatarURL;
-    embed['embed']['footer']['icon_url']=client.user.avatarURL;
-}
-
 function sendEmbed(channel, embed) {
     initializeEmbedFields(embed);
     channel.send(embed);
 }
+
+/* Basic functions above */
+
+/* Data values */
 
 var categories = {
     "Recently added 🆕": [],
@@ -254,18 +109,52 @@ var fortniteCategories = {
     "afterWin": []
 };
 
+/* Data values above */
+
+/** Initializing and resetting */
+
+function resetEmbeds() {
+    Embeds.chatCommands['embed']['fields']=[];
+    Embeds.voiceCommands['embed']['fields']=[];
+}
+
+function initialise() {
+    Embeds.allCommands['embed']['fields']=Embeds.allFields;
+    var name;
+    // Initialising all voice commands
+    for (var i=0; i<Embeds.allFields.length; i++) {
+        name=Embeds.allFields[i]['name'];
+        if (name==="Simple response commands") {
+            break;
+        }
+        Embeds.voiceCommands['embed']['fields'].push(Embeds.allFields[i]);
+    }
+    // Intialising all chat commands
+    for (var i=7; i<Embeds.allFields.length; i++) {
+        Embeds.chatCommands['embed']['fields'].push(Embeds.allFields[i]);
+    }
+}
+
 function makeResponseArrays() {
     var voiceObjectKeys=Object.keys(Response.voiceObject);
     for (var i=0; i<voiceObjectKeys.length; i++) {
-        for (var j=0; j<Response.voiceObject[voiceObjectKeys[i]]['categories'].length; j++) {
-            if (i==0) {
-                categories[Response.voiceObject[voiceObjectKeys[i]]['categories'][j]].push(voiceObjectKeys[i].substring(1));
+        let currentVoiceKey=voiceObjectKeys[i];
+        if (i>voiceObjectKeys.length-15) {
+            if (categories["Recently added 🆕"].length==0) {
+                categories["Recently added 🆕"].push(currentVoiceKey.substring(1));
             } else {
-                categories[Response.voiceObject[voiceObjectKeys[i]]['categories'][j]].push(" "+voiceObjectKeys[i].substring(1));
+                categories["Recently added 🆕"].push(" "+currentVoiceKey.substring(1));
             }
         }
-        for (var j=0; j<Response.voiceObject[voiceObjectKeys[i]]['categoriesFortnite'].length; j++) {
-            fortniteCategories[Response.voiceObject[voiceObjectKeys[i]]['categoriesFortnite'][j]].push(voiceObjectKeys[i]);
+        for (var j=0; j<Response.voiceObject[currentVoiceKey]['categories'].length; j++) {
+            if (i==0) {
+                categories[Response.voiceObject[currentVoiceKey]['categories'][j]].push(currentVoiceKey.substring(1));
+            } else {
+                categories[Response.voiceObject[currentVoiceKey]['categories'][j]].push(" "+currentVoiceKey.substring(1));
+            }
+        }
+        for (var j=0; j<Response.voiceObject[currentVoiceKey]['categoriesFortnite'].length; j++) {
+            fortniteCategories[Response.voiceObject[currentVoiceKey]['categoriesFortnite'][j]].push(currentVoiceKey);
         }
     }
 }
@@ -282,7 +171,7 @@ function initialiseAllEmbeds() {
     }
     Embeds.allFields.push({
         name: "Simple response commands",
-        value: "ayy, wat, lol, ping, pong, pief, paf, sup, regret, help, dab, nigga, really nigga"
+        value: "ayy, wat, lol, ping, pong, pief, paf, sup, regret, dab, nigga, really nigga"
     })
     Embeds.allFields.push(
     {
@@ -295,6 +184,16 @@ function initialiseAllEmbeds() {
         value: "niceshot, regret, nigga, hackerman, hihi, hihi met"
     })
 }
+
+function initializeEmbedFields(embed) {
+    embed['embed']['author']['name']=client.user.username;
+    embed['embed']['author']['icon_url']=client.user.avatarURL;
+    embed['embed']['footer']['icon_url']=client.user.avatarURL;
+}
+
+/** Initializing and resetting above */
+
+/* Handling input */
 
 client.on('ready', () => {
     console.log('The awesome bot made by Klaas Tilman is now online! Woahahoah');
@@ -318,12 +217,34 @@ client.on('message',async message => {
         sendImageCommand(message.channel, Response.imageObject[messageLC]);
     }
     // Voice commands
-    if (Response.voiceObject[messageLC] || messageLC==="!skip" || messageLC==="!stop" || messageLC==="!queue" || messageLC==="!np" || messageLC==="!pause" || messageLC==="!resume") {
+    if (Response.voiceObject[messageLC] || messageLC==="!skip" || messageLC==="!stop" || messageLC==="!queue" || messageLC==="!np" || messageLC==="!pause" || messageLC==="!resume" || messageLC==="!volume") {
         if (Response.voiceObject[messageLC]!=undefined) {
-            playVoiceCommand(message, Response.voiceObject[messageLC]["file"], messageLC);
+            Handling.handleVoiceCommand(message, Response.voiceObject[messageLC]["file"], messageLC, null);
         } else {
-            playVoiceCommand(message, Response.voiceObject[messageLC], messageLC);
+            Handling.handleVoiceCommand(message, Response.voiceObject[messageLC], messageLC, null);
         }
+    } else if (messageLC.startsWith('!volume')) {
+        var volumeMessage=messageLC.split(/[ ]+/);
+        var volume;
+        if (volumeMessage.length!=1) {
+            switch(volumeMessage[1]) {
+                case "lower":
+                    volume=volumeMessage[1];
+                    break;
+                case "higher": 
+                    volume=volumeMessage[1];
+                    break;
+                case "half":
+                    volume=volumeMessage[1];
+                    break;
+                case "twice":
+                    volume=volumeMessage[1];
+                    break;
+                default:
+                    volume=parseInt(volumeMessage[1]);
+            }
+        }
+        Handling.handleVoiceCommand(message, Response.voiceObject[messageLC], "!volume", volume);
     }
     // Emoji responds
     if (Response.emojiObject[messageLC]) {
@@ -341,35 +262,17 @@ client.on('message',async message => {
     // Randomizer
     if (messageLC==="!afterlose") {
         var randomItem = fortniteCategories["afterLose"][Math.floor(Math.random()*fortniteCategories["afterLose"].length)]
-        console.log(Math.random()*fortniteCategories["afterLose"].length);
-        console.log(fortniteCategories["afterLose"].length);
-        console.log(randomItem);
-        playVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem);
+        Handling.handleVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem);
     }
     if (messageLC==="!afterwin") {
         var randomItem = fortniteCategories["afterWin"][Math.floor(Math.random()*fortniteCategories["afterWin"].length)]
-        playVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem);
+        Handling.handleVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem);
     }
     if (messageLC==="!beforematch") {
         var randomItem = fortniteCategories["beforeMatch"][Math.floor(Math.random()*fortniteCategories["beforeMatch"].length)]
-        playVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem);
+        Handling.handleVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem);
     }
-    //console.log(message.embeds);
-    //console.log(message.embeds[0].title);
-    if (message.embeds[0]!=undefined && message.embeds[0].title=='‌‌A wild pokémon has appeared!') {
-        console.log(
-            "Pokemon appeared\n"+
-            message.embeds[0].image.url
-        );
-        responseWithEmoji(message, Response.emojiObject["noanime"]);
-        responseWithEmoji(message, Response.emojiObject["aw_yeah"]);
-        responseWithEmoji(message, Response.emojiObject["heyguys"]);
-        responseWithEmoji(message, Response.emojiObject["pikachu"]);
-        responseWithEmoji(message, Response.emojiObject["hmMMM"]);
-    }
-    /*message.guild.emojis.forEach(function(element) {
-        console.log(element.name+element.id);
-    });*/ 
+
 });
 
 client.login(Private.token);
