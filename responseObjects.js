@@ -139,6 +139,9 @@ exports.voiceObject = {
     "!surrender": {file: 'surrender.wav', categories: ["Motivation 💪"], categoriesFortnite: ["afterLose", "beforeMatch"]},
     "!whoowee": {file: 'whoowee.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterWin", "beforeMatch"]},
     "!tequila": {file: 'tequila.wav', categories: ["Meme"], categoriesFortnite: ["beforeMatch"]},
+    "!okbye": {file: 'okbye.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterLose"]},
+    "!donald": {file: 'donald.wav', categories: ["Meme"], categoriesFortnite: []},
+    "!holdup": {file: 'holdup.wav', categories: ["Meme"], categoriesFortnite: ["afterWin"]},
 };
 
 exports.responseObject = {

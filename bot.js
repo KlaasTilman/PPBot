@@ -146,11 +146,7 @@ function makeResponseArrays() {
     for (var i=0; i<voiceObjectKeys.length; i++) {
         let currentVoiceKey=voiceObjectKeys[i];
         if (i>voiceObjectKeys.length-15) {
-            if (categories["Recently added 🆕"].length==0) {
-                categories["Recently added 🆕"].push(currentVoiceKey.substring(1));
-            } else {
                 categories["Recently added 🆕"].push(" "+currentVoiceKey.substring(1));
-            }
         }
         for (var j=0; j<Response.voiceObject[currentVoiceKey]['categories'].length; j++) {
             if (i==0) {

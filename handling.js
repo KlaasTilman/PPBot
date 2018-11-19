@@ -38,10 +38,19 @@ async function handleVoiceCommand(msg, audioFile, command, volume) { // eslint-d
             case "twice":
                 volume=serverQueue.volume*2;
                 break;
-        }
-		serverQueue.volume = volume;
-		serverQueue.connection.dispatcher.setVolumeLogarithmic(volume / 5);
-		return msg.channel.send(`I set the volume to: **${volume}**`);
+		}
+		if (!isNaN(volume)) {
+			if (volume<0) {
+				volume=1;
+			} else if (volume>10) {
+				volume=10;
+			}
+			serverQueue.volume = volume;
+			serverQueue.connection.dispatcher.setVolumeLogarithmic(volume / 5);
+			return msg.channel.send(`I set the volume to: **${volume}**`);
+		} else {
+			return msg.reply('Hey mister that\'s not a valid number! Please input a number or valid command and stop hacking!')
+		}
 	} else if (command === '!np') {
 		if (!serverQueue) return msg.channel.send('There is nothing playing.');
 		return msg.channel.send(`🎶 Now playing: **${serverQueue.songs[0]}**`);
