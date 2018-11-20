@@ -22,7 +22,7 @@ client.on('message', message=> {
 
 /* Function that executes voice command when someone enters the a voice channel */
 client.on('voiceStateUpdate', async (oldMember, newMember) => {
-  let randomVoiceCommand = ["!hellothere", "!hallo", "!jeff", "!flip", "!klokhuis"];
+  let randomVoiceCommand = ["!hellothere", "!hallo", "!jeff", "!flip", "!klokhuis", "!ohhoi"];
   let newUserChannel = newMember.voiceChannel
   let oldUserChannel = oldMember.voiceChannel
   if(oldUserChannel === undefined && newUserChannel !== undefined && newMember.user.bot===false) {
