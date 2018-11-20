@@ -142,6 +142,11 @@ exports.voiceObject = {
     "!okbye": {file: 'okbye.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterLose"]},
     "!donald": {file: 'donald.wav', categories: ["Meme"], categoriesFortnite: []},
     "!holdup": {file: 'holdup.wav', categories: ["Meme"], categoriesFortnite: ["afterWin"]},
+    "!bye": {file: 'bye.wav', categories: ["Meme"], categoriesFortnite: ["afterLose"]},
+    "!highground": {file: 'highground.wav', categories: ["Meme"], categoriesFortnite: []},
+    "!yaboi": {file: 'yaboi.wav', categories: ["Meme"], categoriesFortnite: []},
+    "!blauwehuis": {file: 'blauwehuis.wav', categories: ["Gamen :video_game:"], categoriesFortnite: []},
+    "!ohhoi": {file: 'ohhoi.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterWin"]},
 };
 
 exports.responseObject = {
