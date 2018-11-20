@@ -22,7 +22,7 @@ client.on('message', message=> {
 
 /* Function that executes voice command when someone enters the a voice channel */
 client.on('voiceStateUpdate', async (oldMember, newMember) => {
-  let randomVoiceCommand = ["!hellothere", "!hallo", "!jeff", "!flip", "!klokhuis", "!ohhoi"];
+  let randomVoiceCommand = ["!hellothere", "!jeff", "!flip", "!klokhuis", "!ohhoi", "!yaboi", "!heyboys"];
   let newUserChannel = newMember.voiceChannel
   let oldUserChannel = oldMember.voiceChannel
   if(oldUserChannel === undefined && newUserChannel !== undefined && newMember.user.bot===false) {
@@ -255,10 +255,6 @@ client.on('message',async message => {
     // Send embeds
     if(Response.embeds[messageLC]) {
         sendEmbed(message.channel, Response.embeds[messageLC]);
-    }
-    if(messageLC.includes("ping pong")) {
-        console.log("Bot was mentioned");
-        message.channel.send("Say what?",{tts:true});
     }
 
     // Randomizer
