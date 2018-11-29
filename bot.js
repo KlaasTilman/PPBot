@@ -32,6 +32,11 @@ client.on('voiceStateUpdate', async (oldMember, newMember) => {
             arrayName.push("!klaas");
             var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
             await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
+      } else if (newMember.user.username==="Meduro") {
+            let arrayName = randomVoiceCommand;
+            arrayName.push("!eric");
+            var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
+            await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
       } else if (newMember.user.username==="sperd") {
             let arrayName = randomVoiceCommand;
             arrayName.push("!sjoerd");

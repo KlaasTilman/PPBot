@@ -147,6 +147,7 @@ exports.voiceObject = {
     "!yaboi": {file: 'yaboi.wav', categories: ["Meme"], categoriesFortnite: []},
     "!blauwehuis": {file: 'blauwehuis.wav', categories: ["Gamen :video_game:"], categoriesFortnite: []},
     "!ohhoi": {file: 'ohhoi.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterWin"]},
+    "!eric": {file: 'eric.ogg', categories: ["Funny 😂"], categoriesFortnite: ["afterLose"]},
 };
 
 exports.responseObject = {
