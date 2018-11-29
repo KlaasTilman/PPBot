@@ -19,7 +19,6 @@ client.on('message', message=> {
     message.reply('Hello there! Simply sent `!pp` `!commands` or `!help` for some more information :smiley:!');
 }
 });
-
 /* Function that executes voice command when someone enters the a voice channel */
 client.on('voiceStateUpdate', async (oldMember, newMember) => {
   let randomVoiceCommand = ["!hellothere", "!jeff", "!flip", "!klokhuis", "!ohhoi", "!yaboi", "!heyboys"];
@@ -210,6 +209,14 @@ client.on('message',async message => {
     var args = message.content.split(/[ ]+/);
     ttsBot(message,args);
     var messageLC=message.content.toLowerCase();
+    if (message.author.username==="sperd") {
+        message.react("🎉");
+        message.react("🎈");
+        message.react("🎊");
+        message.react("😃");
+        message.react("2⃣");
+        message.react("1⃣");
+    }
     // Text commands
     if (Response.responseObject[messageLC] && message.author.username!='Ping Pong') {
         sendChatCommand(message.channel, Response.responseObject[messageLC]);
