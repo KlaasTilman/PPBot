@@ -102,7 +102,15 @@ function sendEmbed(channel, embed) {
 
 /* Basic functions above */
 
-/* Data values */
+var categoriesString = {
+    "recentlyadded": "Recently added 🆕",
+    "reaction": "Reaction 😯",
+    "gamen": "Gamen :video_game:",
+    "motivation": "Motivation 💪",
+    "sad": "Sad 😭",
+    "meme": "Meme",
+    "funny": "Funny 😂",
+}
 
 var categories = {
     "Recently added 🆕": [],
@@ -114,9 +122,9 @@ var categories = {
     "Funny 😂": [],
 };
 var fortniteCategories = {
-    "beforeMatch": [],
-    "afterLose": [],
-    "afterWin": []
+    "beforematch": [],
+    "afterlose": [],
+    "afterwin": []
 };
 
 /* Data values above */
@@ -214,14 +222,14 @@ client.on('message',async message => {
     var args = message.content.split(/[ ]+/);
     ttsBot(message,args);
     var messageLC=message.content.toLowerCase();
-    if (message.author.username==="sperd") {
+    /*if (message.author.username==="sperd") {
         message.react("🎉");
         message.react("🎈");
         message.react("🎊");
         message.react("😃");
         message.react("2⃣");
         message.react("1⃣");
-    }
+    } */
     // Text commands
     if (Response.responseObject[messageLC] && message.author.username!='Ping Pong') {
         sendChatCommand(message.channel, Response.responseObject[messageLC]);
@@ -270,17 +278,15 @@ client.on('message',async message => {
     }
 
     // Randomizer
-    if (messageLC==="!afterlose") {
-        var randomItem = fortniteCategories["afterLose"][Math.floor(Math.random()*fortniteCategories["afterLose"].length)]
-        Handling.handleVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem);
-    }
-    if (messageLC==="!afterwin") {
-        var randomItem = fortniteCategories["afterWin"][Math.floor(Math.random()*fortniteCategories["afterWin"].length)]
-        Handling.handleVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem);
-    }
-    if (messageLC==="!beforematch") {
-        var randomItem = fortniteCategories["beforeMatch"][Math.floor(Math.random()*fortniteCategories["beforeMatch"].length)]
-        Handling.handleVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem);
+
+    var withoutFirstLetter=messageLC.substr(1);
+    if (fortniteCategories[withoutFirstLetter]) {
+        var randomItem = fortniteCategories[withoutFirstLetter][Math.floor(Math.random()*fortniteCategories[withoutFirstLetter].length)]
+        Handling.handleVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem); 
+    } else if (categoriesString[withoutFirstLetter]) {
+        var randomItem = categories[categoriesString[withoutFirstLetter]][Math.floor(Math.random()*categories[categoriesString[withoutFirstLetter]].length)]
+        randomItem="!"+randomItem.replace(/ /g,'');
+        Handling.handleVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem); 
     }
 
 });
