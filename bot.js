@@ -19,6 +19,7 @@ client.on('message', message=> {
     message.reply('Hello there! Simply sent `!pp` `!commands` or `!help` for some more information :smiley:!');
 }
 });
+
 /* Function that executes voice command when someone enters the a voice channel */
 client.on('voiceStateUpdate', async (oldMember, newMember) => {
   let randomVoiceCommand = ["!hellothere", "!jeff", "!flip", "!klokhuis", "!ohhoi", "!yaboi", "!heyboys"];
@@ -216,7 +217,28 @@ client.on('ready', () => {
     resetEmbeds();
     initialiseAllEmbeds();
     initialise();
+
+    channel = client.channels.get('456913907068698647');
+    guild = client.guilds.get('456913906414125065')
+    setTimeout(function(){ 
+        play12OClock(channel, guild);
+        var dayMillseconds = 1000 * 60 * 60 * 24;
+        setInterval(function(){ // repeat this every 24 hours
+            play12OClock(channel, guild);
+        }, dayMillseconds)
+    }, leftTo12OClock()) 
 });
+
+function leftTo12OClock(){
+    var d = new Date();
+    return (-d + d.setHours(0,0,0,0));
+}
+
+async function play12OClock(channel, guild) {
+    await Handling.handleFile(Response.voiceObject["!12oclock"]["file"], null, channel, guild);
+} 
+
+// Get the channel via ID let channel = client.channels.get('456913907068698647'); await Handling.handleFile(Response.voiceObject["!wednesday"]["file"], null, channel, newMember.guild);
 
 client.on('message',async message => {
     var args = message.content.split(/[ ]+/);
