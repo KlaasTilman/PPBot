@@ -111,6 +111,7 @@ async function handleFile(song, msg, voiceChannel, guild) {
         }
 
 		queueConstruct.songs.push(song);
+		console.log(queueConstruct.songs + " | " + new Date().toLocaleTimeString())
 		try {
 			var connection = await voiceChannel.join();
 			queueConstruct.connection = connection;
@@ -130,7 +131,7 @@ async function handleFile(song, msg, voiceChannel, guild) {
 		}
 	} else {
 		serverQueue.songs.push(song);
-		console.log(serverQueue.songs);
+		console.log(serverQueue.songs + " | " + new Date().toLocaleTimeString())
 		//return msg.channel.send(`✅ **${song}** has been added to the queue!`);
 	}
 	return undefined;
