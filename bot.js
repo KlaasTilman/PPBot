@@ -231,7 +231,9 @@ client.on('ready', () => {
 
 function leftTo12OClock(){
     var d = new Date();
-    return (-d + d.setHours(0,0,0,0));
+    var x = -d + d.setHours(24,0,0,0);
+    console.log(x);
+    return (x);
 }
 
 async function play12OClock(channel, guild) {
