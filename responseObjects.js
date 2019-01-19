@@ -151,6 +151,9 @@ exports.voiceObject = {
     "!secrets": {file: 'secrets.wav', categories: ["Reaction 😯"], categoriesFortnite: []},
     "!midget": {file: 'midget.wav', categories: ["Reaction 😯"], categoriesFortnite: []},
     "!sax": {file: 'sax.wav', categories: ["Meme"], categoriesFortnite: ["afterwin"]},
+    "!nitraatje": {file: 'nitraatje.wav', categories: ["Meme"], categoriesFortnite: ["beforematch"]},
+    "!slecht": {file: 'slecht.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterlose"]},
+
 };
 
 exports.responseObject = {

@@ -232,7 +232,6 @@ client.on('ready', () => {
 function leftTo12OClock(){
     var d = new Date();
     var x = -d + d.setHours(24,0,0,0);
-    console.log(x);
     return (x);
 }
 
