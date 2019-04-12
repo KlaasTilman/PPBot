@@ -153,6 +153,10 @@ exports.voiceObject = {
     "!sax": {file: 'sax.wav', categories: ["Meme"], categoriesFortnite: ["afterwin"]},
     "!nitraatje": {file: 'nitraatje.wav', categories: ["Meme"], categoriesFortnite: ["beforematch"]},
     "!slecht": {file: 'slecht.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterlose"]},
+    "!nogeen": {file: 'nogeen.wav', categories: ["Gamen :video_game:"], categoriesFortnite: ["afterlose"]},
+    "!gay": {file: 'gay.wav', categories: ["Meme"], categoriesFortnite: ["afterlose", "afterwin"]},
+    "!retarded": {file: 'retarded.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterlose"]},
+    "!helpme": {file: 'helpme.wav', categories: ["Reaction 😯"], categoriesFortnite: ["beforematch"]},
 
 };
 
