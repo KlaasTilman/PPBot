@@ -292,6 +292,9 @@ client.on('message',async message => {
         Handling.handleVoiceCommand(message, Response.voiceObject[messageLC], "!volume", volume);
     }
     // Emoji responds
+    if (message.mentions.users.array().length > 0 || message.mentions.roles.array().length > 0 || message.mentions.everyone) {
+        responseWithEmoji(message, Response.emojiObject["PingReee"]);
+    }
     if (Response.emojiObject[messageLC]) {
         responseWithEmoji(message, Response.emojiObject[messageLC]);
     }
