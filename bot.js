@@ -5,6 +5,8 @@ const Private = require('./private.js');
 const Handling = require('./handling.js');
 const client = new Discord.Client();
 
+var no_u = undefined;
+
 /* All listeners */
 client.on('disconnect', () => console.log('I just disconnected, making sure you know, I will reconnect now...'));
 
@@ -76,9 +78,9 @@ function commandSay(str, msg){
 function ttsBot(message, args) {
     if(commandSay("say",message)) {
         if(args.length===1) {
-            message.channel.sendMessage('(Idiot). Usage: !say [message to say].');
+            message.channel.send('(Idiot). Usage: !say [message to say].');
         } else {
-            message.channel.sendMessage(args.join(" ").substring(5),{tts:false});
+            message.channel.send(args.join(" ").substring(5),{tts:false});
         }
     }
 }
@@ -260,6 +262,16 @@ client.on('message',async message => {
     // Image commands
     if (Response.imageObject[messageLC]) {
         sendImageCommand(message.channel, Response.imageObject[messageLC]);
+    }
+    if (messageLC=="no u") {
+        if (no_u == undefined) {
+            no_u = message.author.username;
+        } else if (no_u!=undefined && message.author.username!=no_u) {
+            sendChatCommand(message.channel, Response.responseObject["double no u"]);
+            no_u = undefined;
+        } 
+    } else {
+        no_u = undefined;
     }
     // Voice commands
     if (Response.voiceObject[messageLC] || messageLC==="!skip" || messageLC==="!stop" || messageLC==="!queue" || messageLC==="!np" || messageLC==="!pause" || messageLC==="!resume" || messageLC==="!volume") {
