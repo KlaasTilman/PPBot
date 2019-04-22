@@ -157,7 +157,7 @@ exports.voiceObject = {
     "!gay": {file: 'gay.wav', categories: ["Meme"], categoriesFortnite: ["afterlose", "afterwin"]},
     "!retarded": {file: 'retarded.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterlose"]},
     "!helpme": {file: 'helpme.wav', categories: ["Reaction 😯"], categoriesFortnite: ["beforematch"]},
-
+    "!warm": {file: 'warm.mp3', categories: ["Funny 😂"], categoriesFortnite: ["beforematch"]},
 };
 
 exports.responseObject = {
@@ -181,7 +181,8 @@ exports.responseObject = {
     "!hackerman": "https://giphy.com/gifs/fury-kung-hackerman-QbumCX9HFFDQA",
     "hihi": "met",
     "!fortnite": "`!afterlose`\n`!afterwin`\n`!beforematch`",
-    "!categories": "`!recentlyadded`\n`!reaction`\n`!gamen`\n`!motivation`\n`!sad`\n`!meme`\n`!funny`\n"
+    "!categories": "`!recentlyadded`\n`!reaction`\n`!gamen`\n`!motivation`\n`!sad`\n`!meme`\n`!funny`\n",
+    "double no u": "https://media.giphy.com/media/U24nPg0QKAroWJYFAI/giphy.gif"
 };
 
 exports.imageObject = {
@@ -202,8 +203,6 @@ exports.imageObject = {
 
 exports.emojiObject = {
     "gotem": "457243138617245717",
-    "yeah": "458285126883999745",
-    "no u": "458285126883999745",
     "p!pokemon": "493406516280295435",
     "p!info": "493406516280295435",
     "pokemon": "493406516280295435",
