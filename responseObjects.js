@@ -158,6 +158,8 @@ exports.voiceObject = {
     "!retarded": {file: 'retarded.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterlose"]},
     "!helpme": {file: 'helpme.wav', categories: ["Reaction 😯"], categoriesFortnite: ["beforematch"]},
     "!warm": {file: 'warm.mp3', categories: ["Funny 😂"], categoriesFortnite: ["beforematch"]},
+    "!9oclock": {file: '9oclock.mp3', categories: ["Meme"], categoriesFortnite: ["beforematch"]},
+    "!greatidea": {file: 'greatidea.wav', categories: ["Reaction 😯"], categoriesFortnite: ["beforematch"]},
 };
 
 exports.responseObject = {

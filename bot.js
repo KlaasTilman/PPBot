@@ -222,23 +222,34 @@ client.on('ready', () => {
 
     channel = client.channels.get('456913907068698647');
     guild = client.guilds.get('456913906414125065')
+
+    // 12oclock
     setTimeout(function(){ 
-        play12OClock(channel, guild);
+        playClock(channel, guild, "12oclock");
         var dayMillseconds = 1000 * 60 * 60 * 24;
         setInterval(function(){ // repeat this every 24 hours
-            play12OClock(channel, guild);
+            playClock(channel, guild, "12oclock");
         }, dayMillseconds)
-    }, leftTo12OClock()) 
+    }, leftToTime(24,0,0,0)) 
+
+    // 9oclock
+    setTimeout(function(){ 
+        playClock(channel, guild, "9oclock");
+        var dayMillseconds = 1000 * 60 * 60 * 24;
+        setInterval(function(){ // repeat this every 24 hours
+            playClock(channel, guild, "9oclock");
+        }, dayMillseconds)
+    }, leftToTime(21,0,0,0)) 
 });
 
-function leftTo12OClock(){
+function leftToTime(hours, minutes, seconds, milliseconds){
     var d = new Date();
-    var x = -d + d.setHours(24,0,0,0);
+    var x = -d + d.setHours(hours,minutes,seconds,milliseconds);
     return (x);
 }
 
-async function play12OClock(channel, guild) {
-    await Handling.handleFile(Response.voiceObject["!12oclock"]["file"], null, channel, guild);
+async function playClock(channel, guild, fileName) {
+    await Handling.handleFile(Response.voiceObject["!"+fileName]["file"], null, channel, guild);
 } 
 
 // Get the channel via ID let channel = client.channels.get('456913907068698647'); await Handling.handleFile(Response.voiceObject["!wednesday"]["file"], null, channel, newMember.guild);
