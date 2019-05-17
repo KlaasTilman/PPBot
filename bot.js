@@ -31,27 +31,32 @@ client.on('voiceStateUpdate', async (oldMember, newMember) => {
       if (getToday()=='Wednesday') {
           await Handling.handleFile(Response.voiceObject["!wednesday"]["file"], null, newMember.voiceChannel, newMember.guild);
       } else if (newMember.user.username==="Klaas") {
-            let arrayName = randomVoiceCommand;
-            arrayName.push("!klaas");
-            var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
+            //let arrayName = randomVoiceCommand;
+            //arrayName.push("!klaas");
+            //var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
+            var rand="!klaas";
             await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
       } else if (newMember.user.username==="Meduro") {
-            let arrayName = randomVoiceCommand;
-            arrayName.push("!eric");
-            var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
+            //let arrayName = randomVoiceCommand;
+            //arrayName.push("!eric");
+            //var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
+            var rand="!eric";
             await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
       } else if (newMember.user.username==="sperd") {
-            let arrayName = randomVoiceCommand;
-            arrayName.push("!sjoerd");
-            var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
+            //let arrayName = randomVoiceCommand;
+            //arrayName.push("!sjoerd");
+            //var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
+            var rand = "!sjoerd";
             await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
       } else if (newMember.user.username==="Kizerain") {
-            let arrayName = randomVoiceCommand;
-            arrayName.push("!wout");
-            var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
+            //let arrayName = randomVoiceCommand;
+            //arrayName.push("!wout");
+            //var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
+            var rand="!wout";
             await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
       } else {
-          var rand = randomVoiceCommand[Math.floor(Math.random() * randomVoiceCommand.length)];
+          //var rand = randomVoiceCommand[Math.floor(Math.random() * randomVoiceCommand.length)];
+          var rand="!yaboi"
           await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
       }
   } else if(newUserChannel === undefined && newMember.user.bot===false){
