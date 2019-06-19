@@ -165,8 +165,8 @@ exports.voiceObject = {
 exports.responseObject = {
     "ayy": "Ayy, lmao!",
     "wat": "Say what?",
-    "lol": "+lol=",
-    "+lol=": "hihi",
+    //"lol": "+lol=",
+    //"+lol=": "hihi",
     "!test": "Yes I am online :)",
     "ping": "pong",
     "pong": "ping",
@@ -181,7 +181,7 @@ exports.responseObject = {
     "regret": "Did you say regret!?",
     "dab": "Did you say dab!?",
     "!hackerman": "https://giphy.com/gifs/fury-kung-hackerman-QbumCX9HFFDQA",
-    "hihi": "met",
+    //"hihi": "met",
     "!fortnite": "`!afterlose`\n`!afterwin`\n`!beforematch`",
     "!categories": "`!recentlyadded`\n`!reaction`\n`!gamen`\n`!motivation`\n`!sad`\n`!meme`\n`!funny`\n",
     "double no u": "https://media.giphy.com/media/U24nPg0QKAroWJYFAI/giphy.gif"
