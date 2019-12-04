@@ -1,15 +1,30 @@
+exports.handleInstructions=handleInstructions;
 exports.handleVoiceCommand=handleVoiceCommand;
+exports.logVoiceCommand=logVoiceCommand;
 exports.handleFile=handleFile;
 exports.play=play;
 
+const fs = require("fs")
+
 const queue = new Map();
 
-/* Function to handle the voice command 
-First argument is the message, second the audioFile to be played, third the command issued and fourth the volume to be set */
-async function handleVoiceCommand(msg, audioFile, command, volume) { // eslint-disable-line
+function logVoiceCommand(command) {
+	command = command.substr(1);
+	let rawdata = fs.readFileSync("./Logging/logging.json");
+	let loggingJSON = JSON.parse(rawdata);
+	
+	if (!loggingJSON[command]) {
+		loggingJSON[command] = 1;
+	} else {
+		loggingJSON[command] = loggingJSON[command] + 1;
+	}
+
+	fs.writeFile("./Logging/logging.json", JSON.stringify(loggingJSON), (error) => {"Couldn't write to ./logging.json" + error});
+}
+
+async function handleInstructions(msg, command, volume) {
 	if (msg.author.bot) return undefined;
 	const serverQueue = queue.get(msg.guild.id);
-	const voiceChannel = msg.member.voiceChannel;
 	if (command === '!skip') {
 		if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
 		if (!serverQueue) return msg.channel.send('There is nothing playing that I could skip for you.');
@@ -76,6 +91,13 @@ ${serverQueue.songs.map(song => `**-** ${song}`).join('\n')}
 		}
 		return msg.channel.send('There is nothing playing.');
 	}
+}
+
+/* Function to handle the voice command 
+First argument is the message, second the audioFile to be played, third the command issued and fourth the volume to be set */
+async function handleVoiceCommand(msg, audioFile, command, volume) { // eslint-disable-line
+	if (msg.author.bot) return undefined;
+	const voiceChannel = msg.member.voiceChannel;
     if (!voiceChannel) return msg.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
 	const permissions = voiceChannel.permissionsFor(msg.client.user);
 	if (!permissions.has('CONNECT')) {

@@ -71,3 +71,18 @@ exports.voiceCommands = {embed: {
         }
     }
 }
+
+exports.logging = {embed: {
+    color: 3447003,
+    author: {
+        name: "",
+        icon_url: ""
+    },
+    title: "Most used voice commands",
+    fields: [],
+    footer: {
+        icon_url: "",
+        text: "© Klaas Tilman",
+    }
+}
+}

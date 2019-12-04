@@ -1,2 +1,2 @@
-nodemon bot.js
+nodemon bot.js --ignore Logging/
 PAUSE

@@ -160,6 +160,8 @@ exports.voiceObject = {
     "!warm": {file: 'warm.mp3', categories: ["Funny 😂"], categoriesFortnite: ["beforematch"]},
     "!9oclock": {file: '9oclock.mp3', categories: ["Meme"], categoriesFortnite: ["beforematch"]},
     "!greatidea": {file: 'greatidea.wav', categories: ["Reaction 😯"], categoriesFortnite: ["beforematch"]},
+    "!keeper": {file: 'keeper.wav', categories: ["Gamen :video_game:"], categoriesFortnite: ["afterlose"]},
+    "!kut": {file: 'kut.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterlose"]},
 };
 
 exports.responseObject = {
@@ -245,5 +247,6 @@ exports.embeds = {
     "!pp": Embeds.commands,
     "!all": Embeds.allCommands,
     "!chat": Embeds.chatCommands,
-    "!voicechat": Embeds.voiceCommands
+    "!voicechat": Embeds.voiceCommands,
+    "!mostused": Embeds.logging
 }

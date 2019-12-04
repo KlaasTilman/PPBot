@@ -3,6 +3,8 @@ const Response = require('./responseObjects.js');
 const Embeds = require('./embeds.js');
 const Private = require('./private.js');
 const Handling = require('./handling.js');
+const fs = require("fs")
+
 const client = new Discord.Client();
 
 var no_u = undefined;
@@ -226,7 +228,7 @@ client.on('ready', () => {
     initialise();
 
     channel = client.channels.get('456913907068698647');
-    guild = client.guilds.get('456913906414125065')
+    guild = client.guilds.get('456913906414125065');
 
     // 12oclock
     setTimeout(function(){ 
@@ -290,12 +292,11 @@ client.on('message',async message => {
         no_u = undefined;
     }
     // Voice commands
-    if (Response.voiceObject[messageLC] || messageLC==="!skip" || messageLC==="!stop" || messageLC==="!queue" || messageLC==="!np" || messageLC==="!pause" || messageLC==="!resume" || messageLC==="!volume") {
-        if (Response.voiceObject[messageLC]!=undefined) {
-            Handling.handleVoiceCommand(message, Response.voiceObject[messageLC]["file"], messageLC, null);
-        } else {
-            Handling.handleVoiceCommand(message, Response.voiceObject[messageLC], messageLC, null);
-        }
+    if (Response.voiceObject[messageLC]) {
+        Handling.handleVoiceCommand(message, Response.voiceObject[messageLC]["file"], messageLC, null);
+        Handling.logVoiceCommand(messageLC);
+    } else if (messageLC==="!skip" || messageLC==="!stop" || messageLC==="!queue" || messageLC==="!np" || messageLC==="!pause" || messageLC==="!resume" || messageLC==="!volume") {
+        Handling.handleInstructions(message, messageLC, null);
     } else if (messageLC.startsWith('!volume')) {
         var volumeMessage=messageLC.split(/[ ]+/);
         var volume;
@@ -317,7 +318,7 @@ client.on('message',async message => {
                     volume=parseInt(volumeMessage[1]);
             }
         }
-        Handling.handleVoiceCommand(message, Response.voiceObject[messageLC], "!volume", volume);
+        Handling.handleInstructions(message, "!volume", volume);
     }
     // Emoji responds
     if (message.mentions.users.array().length > 0 || message.mentions.roles.array().length > 0 || message.mentions.everyone) {
@@ -328,6 +329,39 @@ client.on('message',async message => {
     }
     // Send embeds
     if(Response.embeds[messageLC]) {
+        if (messageLC == "!mostused") {
+            let rawdata = fs.readFileSync("./Logging/logging.json");
+            let loggingJSON = JSON.parse(rawdata);
+            //console.log(loggingJSON);
+            loggingJSONAsArray = Object.keys(loggingJSON).map(function (key) {
+                return loggingJSON[key];
+            })
+            .sort(function (itemA, itemB) {
+                return itemA < itemB;
+            });
+            console.log(loggingJSONAsArray);
+
+            var voiceObjectKeys=Object.keys(loggingJSONAsArray);
+            var commands = Object.keys(loggingJSON);
+
+            var jim = "";
+
+            //console.log(voiceObjectKeys);
+            for (var i=0; i<voiceObjectKeys.length; i++) {
+                //console.log(voiceObjectKeys[i]);
+                //console.log(loggingJSON[voiceObjectKeys[i]]);
+                jim += commands[i] + " " + loggingJSONAsArray[voiceObjectKeys[i]] + "\n";
+            }
+            if (jim === "") {
+                jim = "No commands used yet";
+            }
+            
+            Embeds.logging['embed']['fields'] = [];
+            Embeds.logging['embed']['fields'].push({
+                    name: "Commands",
+                    value: jim
+                });
+        }  
         sendEmbed(message.channel, Response.embeds[messageLC]);
     }
 
