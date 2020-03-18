@@ -162,6 +162,9 @@ exports.voiceObject = {
     "!greatidea": {file: 'greatidea.wav', categories: ["Reaction 😯"], categoriesFortnite: ["beforematch"]},
     "!keeper": {file: 'keeper.wav', categories: ["Gamen :video_game:"], categoriesFortnite: ["afterlose"]},
     "!kut": {file: 'kut.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterlose"]},
+    "!sometimes": {file: 'sometimes.mp3', categories: ["Reaction 😯"], categoriesFortnite: ["afterlose"]},
+    "!come": {file: 'come.mp3', categories: ["Reaction 😯"], categoriesFortnite: []},
+    "!autistic": {file: 'autistic.wav', categories: ["Meme"], categoriesFortnite: []},
 };
 
 exports.responseObject = {
