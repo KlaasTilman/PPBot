@@ -219,7 +219,8 @@ exports.imageObject = {
     "hihi met": './sisi2.jpg',
     "hihi": './sisi.png',
     "keukenrol": './keukenrol.jpg',
-    "hap": './hap.png'
+    "hap": './hap.png',
+    "rawr": './rawr.gif'
 }
 
 exports.emojiObject = {
