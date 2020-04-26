@@ -26,40 +26,22 @@ client.on('message', message=> {
 
 /* Function that executes voice command when someone enters the a voice channel */
 client.on('voiceStateUpdate', async (oldMember, newMember) => {
-    let randomVoiceCommand = ["!hellothere", "!jeff", "!flip", "!klokhuis", "!ohhoi", "!yaboi", "!heyboys"];
     let newUserChannel = newMember.voiceChannel
     let oldUserChannel = oldMember.voiceChannel
     if(oldUserChannel === undefined && newUserChannel !== undefined && newMember.user.bot===false) {
+        
+
         if (getToday()=='Wednesday') {
             await Handling.handleFile(Response.voiceObject["!wednesday"]["file"], null, newMember.voiceChannel, newMember.guild);
-        } else if (newMember.user.username==="Klaas") {
-            //let arrayName = randomVoiceCommand;
-            //arrayName.push("!klaas");
-            //var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
-            var rand="!klaas";
-            await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
-        } else if (newMember.user.username==="Meduro") {
-            //let arrayName = randomVoiceCommand;
-            //arrayName.push("!eric");
-            //var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
-            var rand="!eric";
-            await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
-        } else if (newMember.user.username==="sperd") {
-            //let arrayName = randomVoiceCommand;
-            //arrayName.push("!sjoerd");
-            //var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
-            var rand = "!sjoerd";
-            await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
-        } else if (newMember.user.username==="Kizerain") {
-            //let arrayName = randomVoiceCommand;
-            //arrayName.push("!wout");
-            //var rand = arrayName[Math.floor(Math.random() * randomVoiceCommand.length)];
-            var rand="!wout";
-            await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
+        }
+
+        var newMemberUsername = newMember.user.username;
+        var voiceCommand = Response.joinVoiceChatResponse[newMemberUsername] ? Response.joinVoiceChatResponse[newMemberUsername] : Response.joinVoiceChatResponse["default"]
+
+        if (Response.joinVoiceChatResponse[newMemberUsername]) {
+            await Handling.handleFile(Response.voiceObject[voiceCommand]["file"], null, newMember.voiceChannel, newMember.guild);
         } else {
-            //var rand = randomVoiceCommand[Math.floor(Math.random() * randomVoiceCommand.length)];
-            var rand="!yaboi"
-            await Handling.handleFile(Response.voiceObject[rand]["file"], null, newMember.voiceChannel, newMember.guild);
+            await Handling.handleFile(Response.voiceObject[voiceCommand]["file"], null, newMember.voiceChannel, newMember.guild);
         }
     } else if(newUserChannel === undefined && newMember.user.bot===false){
         // User leaves a voice channel
@@ -137,11 +119,14 @@ var fortniteCategories = {
     "afterwin": []
 };
 
+var allVoiceCommands = [];
+
 /** Initializing and resetting */
 function makeResponseArrays() {
     var voiceObjectKeys=Object.keys(Response.voiceObject);
     for (var i=0; i<voiceObjectKeys.length; i++) {
         let currentVoiceKey=voiceObjectKeys[i];
+        allVoiceCommands.push(currentVoiceKey.substring(1));
         // Add 15 last added commands
         if (i>voiceObjectKeys.length-15) {
                 categories["Recently added 🆕"].push(" "+currentVoiceKey.substring(1));
@@ -163,19 +148,14 @@ function makeResponseArrays() {
 
 function setAllEmbeds() {
     var categoriesKeys=Object.keys(categories);
-    console.log(categories["Top 10"]);
-    console.log(categories["Top 10"].reverse().toString());
-    console.log(categoriesKeys);
     for (var i=0; i<categoriesKeys.length; i++) {
-        console.log("checkie");
         Embeds.allFields.push(
             {
                 name: categoriesKeys[i],
-                value: categories[categoriesKeys[i]].reverse().toString()
+                value: categories[categoriesKeys[i]].reverse().toString(),
             }
         );
     }
-    console.log(Embeds.allFields[0]);
     Embeds.allFields.push({
         name: "Simple response commands",
         value: "ayy, wat, lol, ping, pong, pief, paf, sup, regret, dab, nigga, really nigga"
@@ -220,6 +200,37 @@ function setSpecificEmbeds() {
     for (var i=7; i<Embeds.allFields.length; i++) {
         Embeds.chatCommands['embed']['fields'].push(Embeds.allFields[i]);
     }
+    // Setting alphabetical categories 
+    console.log("We will now set the alphabetical stuff.");
+    setAlphabeticalEmbed();
+}
+
+function setAlphabeticalEmbed() {
+    allVoiceCommandsSorted = allVoiceCommands.sort();
+    var currentCharacter;
+    var currentString = "";
+    for (var i=0; i<allVoiceCommandsSorted.length; i++) {
+        if (currentString != "" 
+            && (currentCharacter != allVoiceCommandsSorted[i].charAt(0))
+            && allVoiceCommandsSorted[i].charAt(0).match(/[a-z]/i)
+        ) {
+            Embeds.alphaTest['embed']['fields'].push(
+                {
+                    name: currentCharacter,
+                    value: currentString,
+                    inline: true
+                }
+            );
+            currentString = "";
+        }
+        currentCharacter = allVoiceCommandsSorted[i].charAt(0);
+
+        if (currentString == "") {
+            currentString += allVoiceCommandsSorted[i].toString();
+        } else {
+            currentString += ", " + allVoiceCommandsSorted[i].toString();
+        }
+    };
 }
 
 function updateLoggingEmbed() {
@@ -309,8 +320,6 @@ async function playClock(channel, guild, fileName) {
     await Handling.handleFile(Response.voiceObject["!"+fileName]["file"], null, channel, guild);
 } 
 
-// Get the channel via ID let channel = client.channels.get('456913907068698647'); await Handling.handleFile(Response.voiceObject["!wednesday"]["file"], null, channel, newMember.guild);
-
 client.on('message',async message => {
     var args = message.content.split(/[ ]+/);
     ttsBot(message,args);
@@ -399,7 +408,6 @@ client.on('message',async message => {
         randomItem="!"+randomItem.replace(/ /g,'');
         Handling.handleVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem); 
     }
-
 });
 
 client.login(Private.token);

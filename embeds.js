@@ -8,7 +8,7 @@ exports.commands = {
         description: "PPBot is an AMAZING voice command bot with a few simple chat commands.\n\n Voice commands can only be used when you are in a voicechat.",
         fields: [{
             name: "Commands",
-            value: "Send `!all` for all commands\n Send `!voicechat` for all voicechat commands \n Send `!chat` for all chat commands! \n "
+            value: "Send `!all` for all commands\n Send `!voicechat` for all voicechat commands \n Send `!chat` for all chat commands! \n Send `!voicechatcat` for all voice commands with categories! \n"
           },
           {
             name: "Randomizer",
@@ -70,6 +70,21 @@ exports.voiceCommands = {embed: {
             text: "© Klaas Tilman",
         }
     }
+}
+
+exports.alphaTest = {embed: {
+    color: 3447003,
+    author: {
+        name: "",
+        icon_url: ""
+    },
+    title: "All voice commands alphabetical",
+    fields: [],
+    footer: {
+        icon_url: "",
+        text: "© Klaas Tilman",
+    }
+}
 }
 
 exports.logging = {embed: {

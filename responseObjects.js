@@ -8,7 +8,6 @@ exports.voiceObject = {
     "!niet": {file: 'niet.mp3', categories: ["Reaction 😯"], categoriesFortnite: []},
     "!glitter": {file: 'glitter.mp3', categories: ["Meme"], categoriesFortnite: ["afterwin"]},
     "!darkness": {file: 'darkness.mp3', categories: ["Sad 😭"], categoriesFortnite: ["afterlose"]},
-    "!regret": {file: 'sad.wav', categories: ["Sad 😭"], categoriesFortnite: ["afterlose"]},
     "!shots": {file: 'shots.mp3', categories: ["Reaction 😯"], categoriesFortnite: ["afterwin"]},
     "!cant": {file: 'cant.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterlose"]},
     "!die": {file: 'die.mp3', categories: ["Reaction 😯"], categoriesFortnite: ["afterlose"]},
@@ -49,7 +48,6 @@ exports.voiceObject = {
     "!rustaagh": {file: 'rustaagh.mp3', categories: ["Reaction 😯"], categoriesFortnite: ["afterwin"]},
     "!dunked": {file: 'dunked.wav', categories: ["Gamen :video_game:"], categoriesFortnite: ["afterlose", "afterwin"]},
     "!infinity": {file: 'infinity.mp3', categories: ["Motivation 💪"], categoriesFortnite: ["beforematch"]},
-    "!feelsbad": {file: 'sad.wav', categories: ["Sad 😭"], categoriesFortnite: ["afterlose"]},
     "!herewego": {file: 'herewego.mp3', categories: ["Gamen :video_game:"], categoriesFortnite: ["beforematch"]},
     "!mission": {file: 'mission.mp3', categories: ["Gamen :video_game:"], categoriesFortnite: []},
     "!rip": {file: 'rip.mp3', categories: ["Sad 😭"], categoriesFortnite: ["afterlose"]},
@@ -146,7 +144,7 @@ exports.voiceObject = {
     "!highground": {file: 'highground.wav', categories: ["Meme"], categoriesFortnite: []},
     "!yaboi": {file: 'yaboi.wav', categories: ["Meme"], categoriesFortnite: []},
     "!blauwehuis": {file: 'blauwehuis.wav', categories: ["Gamen :video_game:"], categoriesFortnite: []},
-    "!ohhoi": {file: 'ohhoi.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterwin"]},
+    "!ohhoi": {file: 'ohhoi.wav', categories: ["Reaction 😯"], categoriesFortnite: []},
     "!eric": {file: 'eric.wav', categories: ["Funny 😂"], categoriesFortnite: ["afterlose"]},
     "!secrets": {file: 'secrets.wav', categories: ["Reaction 😯"], categoriesFortnite: []},
     "!midget": {file: 'midget.wav', categories: ["Reaction 😯"], categoriesFortnite: []},
@@ -165,7 +163,23 @@ exports.voiceObject = {
     "!sometimes": {file: 'sometimes.mp3', categories: ["Reaction 😯"], categoriesFortnite: ["afterlose"]},
     "!come": {file: 'come.mp3', categories: ["Reaction 😯"], categoriesFortnite: []},
     "!autistic": {file: 'autistic.wav', categories: ["Meme"], categoriesFortnite: []},
+    "!gjalt": {file: 'gjalt.wav', categories: ["Meme"], categoriesFortnite: []},
+    "!doehet": {file: 'doehet.wav', categories: ["Reaction 😯"], categoriesFortnite: ["beforematch"]},
+    "!waargemaakt": {file: 'waargemaakt.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterwin"]},
+    "!geweldig": {file: 'geweldig.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterwin"]},
+    "!niettegeloven": {file: 'niettegeloven.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterwin"]},
+    "!helikopter": {file: 'helicopter.mp3', categories: ["Meme"], categoriesFortnite: []},
 };
+
+exports.joinVoiceChatResponse = {
+    "Klaas": "!klaas",
+    "Meduro": "!eric",
+    "sperd": "!sjoerd",
+    "Kizerain": "!wout",
+    "Atoxed": "!gjalt",
+    "default": "!yaboi",
+    "wednesday": "!wednesday"
+}
 
 exports.responseObject = {
     "ayy": "Ayy, lmao!",
@@ -250,6 +264,7 @@ exports.embeds = {
     "!pp": Embeds.commands,
     "!all": Embeds.allCommands,
     "!chat": Embeds.chatCommands,
-    "!voicechat": Embeds.voiceCommands,
-    "!mostused": Embeds.logging
+    "!voicechatcat": Embeds.voiceCommands,
+    "!mostused": Embeds.logging,
+    "!voicechat": Embeds.alphaTest
 }
