@@ -201,7 +201,6 @@ function setSpecificEmbeds() {
         Embeds.chatCommands['embed']['fields'].push(Embeds.allFields[i]);
     }
     // Setting alphabetical categories 
-    console.log("We will now set the alphabetical stuff.");
     setAlphabeticalEmbed();
 }
 
@@ -258,7 +257,7 @@ function updateLoggingEmbed() {
     var commandsString = "";
     var top10 = [];
 
-    for (var i=0; i<sortedArray.length; i++) {
+    for (var i=0; i<30; i++) {
         commandsString += sortedArray[i][1] + " " + sortedArray[i][0] + "\n";
         if (i < 10) {
             top10.push(" " + sortedArray[i][1]);
