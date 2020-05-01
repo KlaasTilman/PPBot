@@ -169,6 +169,11 @@ exports.voiceObject = {
     "!geweldig": {file: 'geweldig.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterwin"]},
     "!niettegeloven": {file: 'niettegeloven.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterwin"]},
     "!helikopter": {file: 'helicopter.mp3', categories: ["Meme"], categoriesFortnite: []},
+    "!mijzijn": {file: 'mijzijn.wav', categories: ["Meme"], categoriesFortnite: ["afterwin"]},
+    "!geef": {file: 'geef.wav', categories: ["Meme"], categoriesFortnite: ["afterwin"]},
+    "!eenzaam": {file: 'eenzaam.wav', categories: ["Meme"], categoriesFortnite: []},
+    "!mijnleven": {file: 'mijnleven.wav', categories: ["Meme"], categoriesFortnite: ["afterlose", "beforematch"]},
+    "!beslissing": {file: 'beslissing.wav', categories: ["Meme"], categoriesFortnite: ["beforematch"]},
 };
 
 exports.joinVoiceChatResponse = {
