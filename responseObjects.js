@@ -174,9 +174,9 @@ exports.voiceObject = {
     "!eenzaam": {file: 'eenzaam.wav', categories: ["Meme"], categoriesFortnite: []},
     "!mijnleven": {file: 'mijnleven.wav', categories: ["Meme"], categoriesFortnite: ["afterlose", "beforematch"]},
     "!beslissing": {file: 'beslissing.wav', categories: ["Meme"], categoriesFortnite: ["beforematch"]},
-    "!ellende": {file: 'ellende.mp3', categories: ["Meme"], categoriesFortnite: ["afterlose"]},
-    "!bereikt": {file: 'bereikt.mp3', categories: ["Meme"], categoriesFortnite: ["afterlose"]},
-    "!thisnigga": {file: 'thisnigga.wav', categories: ["Meme"], categoriesFortnite: ["afterwin"]},
+    "!ellende": {file: 'ellende.mp3', categories: ["Sad 😭"], categoriesFortnite: ["afterlose"]},
+    "!bereikt": {file: 'bereikt.mp3', categories: ["Sad 😭"], categoriesFortnite: ["afterlose"]},
+    "!thisnigga": {file: 'thisnigga.wav', categories: ["Reaction 😯"], categoriesFortnite: ["afterwin"]},
 };
 
 exports.joinVoiceChatResponse = {
