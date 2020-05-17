@@ -228,7 +228,9 @@ exports.imageObject = {
     "hihi": './sisi.png',
     "keukenrol": './keukenrol.jpg',
     "hap": './hap.png',
-    "rawr": './rawr.gif'
+    "rawr": './rawr.gif',
+    "rl?": './rl.gif',
+    "rl": './rl.gif'
 }
 
 exports.emojiObject = {
