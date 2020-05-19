@@ -8,6 +8,7 @@ const fs = require("fs")
 const client = new Discord.Client();
 
 var no_u = undefined;
+var messages_to_delete = [];
 
 /* All listeners */
 client.on('disconnect', () => console.log('I just disconnected, making sure you know, I will reconnect now...'));
@@ -29,8 +30,6 @@ client.on('voiceStateUpdate', async (oldMember, newMember) => {
     let newUserChannel = newMember.voiceChannel
     let oldUserChannel = oldMember.voiceChannel
     if(oldUserChannel === undefined && newUserChannel !== undefined && newMember.user.bot===false) {
-        
-
         if (getToday()=='Wednesday') {
             await Handling.handleFile(Response.voiceObject["!wednesday"]["file"], null, newMember.voiceChannel, newMember.guild);
         }
@@ -319,6 +318,32 @@ async function playClock(channel, guild, fileName) {
     await Handling.handleFile(Response.voiceObject["!"+fileName]["file"], null, channel, guild);
 } 
 
+function deleteMessages() {
+    for (var i=0; i<messages_to_delete.length; i++) {
+        messages_to_delete[i].delete(1000);
+    }
+    messages_to_delete = [];
+}
+
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+        var context = this, args = arguments;
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+
 client.on('message',async message => {
     var args = message.content.split(/[ ]+/);
     ttsBot(message,args);
@@ -333,16 +358,19 @@ client.on('message',async message => {
     } */
     // Text commands
     if (Response.responseObject[messageLC] && message.author.username!='Ping Pong') {
+        messages_to_delete.push(message);
         sendChatCommand(message.channel, Response.responseObject[messageLC]);
     }
     // Image commands
     if (Response.imageObject[messageLC]) {
+        messages_to_delete.push(message);
         sendImageCommand(message.channel, Response.imageObject[messageLC]);
     }
     if (messageLC=="no u") {
         if (no_u == undefined) {
             no_u = message.author.username;
         } else if (no_u!=undefined && message.author.username!=no_u) {
+            messages_to_delete.push(message);
             sendChatCommand(message.channel, Response.responseObject["double no u"]);
             no_u = undefined;
         } 
@@ -351,11 +379,14 @@ client.on('message',async message => {
     }
     // Voice commands
     if (Response.voiceObject[messageLC]) {
+        messages_to_delete.push(message);
         Handling.handleVoiceCommand(message, Response.voiceObject[messageLC]["file"], messageLC, null);
         Handling.logVoiceCommand(messageLC);
     } else if (messageLC==="!skip" || messageLC==="!stop" || messageLC==="!queue" || messageLC==="!np" || messageLC==="!pause" || messageLC==="!resume" || messageLC==="!volume") {
+        messages_to_delete.push(message);
         Handling.handleInstructions(message, messageLC, null);
     } else if (messageLC.startsWith('!volume')) {
+        messages_to_delete.push(message);
         var volumeMessage=messageLC.split(/[ ]+/);
         var volume;
         if (volumeMessage.length!=1) {
@@ -387,6 +418,7 @@ client.on('message',async message => {
     }
     // Send embeds
     if(Response.embeds[messageLC]) {
+        messages_to_delete.push(message);
         if (messageLC == "!mostused") {
             makeResponseArrays();
             updateLoggingEmbed();
@@ -400,13 +432,17 @@ client.on('message',async message => {
     // Randomizer
     var withoutFirstLetter=messageLC.substr(1);
     if (fortniteCategories[withoutFirstLetter]) {
+        messages_to_delete.push(message);
         var randomItem = fortniteCategories[withoutFirstLetter][Math.floor(Math.random()*fortniteCategories[withoutFirstLetter].length)]
         Handling.handleVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem); 
     } else if (categoriesString[withoutFirstLetter]) {
+        messages_to_delete.push(message);
         var randomItem = categories[categoriesString[withoutFirstLetter]][Math.floor(Math.random()*categories[categoriesString[withoutFirstLetter]].length)]
         randomItem="!"+randomItem.replace(/ /g,'');
         Handling.handleVoiceCommand(message, Response.voiceObject[randomItem]["file"], randomItem); 
     }
+    var deleting = debounce(deleteMessages, 20000, false);
+    deleting();
 });
 
 client.login(Private.token);
