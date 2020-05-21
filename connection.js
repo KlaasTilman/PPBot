@@ -95,7 +95,7 @@ ${serverQueue.songs.map(song => `**-** ${song}`).join('\n')}
 
 /* Function to handle the voice command 
 First argument is the message, second the audioFile to be played, third the command issued and fourth the volume to be set */
-async function handleVoiceCommand(msg, audioFile, command, volume) { // eslint-disable-line
+async function handleVoiceCommand(msg, audioFile) { // eslint-disable-line
 	if (msg.author.bot) return undefined;
 	const voiceChannel = msg.member.voiceChannel;
     if (!voiceChannel) return msg.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
