@@ -39,7 +39,6 @@ client.on('ready', () => {
 
 /* Emoji reaction listener */
 client.on("messageReactionAdd", function(messageReaction, user){
-    console.log(`a reaction is added to a message`);
     emojiInteraction.processEmoji(messageReaction, user);
 });
 

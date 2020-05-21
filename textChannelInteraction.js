@@ -58,38 +58,7 @@ function processMessage(client, message) {
         //messages_to_delete.push(message);
     }
 
-    /** TEMP CODE */
-    var emojiNumbers = [
-        '1️⃣',
-        '2️⃣',
-        '3️⃣',
-        '4️⃣',
-        '5️⃣'
-    ]
-
-    if (getMessageLowerCase(message) == 'testing') {
-        var voice_commands = startUpInteraction.allVoiceCommands;
-        var i,j,temp_array,chunk=5;
-        for (i = 0, j=voice_commands.length; i<j; i+=chunk) {
-            temp_array = voice_commands.slice(i, i+chunk);
-            testingMessage = "";
-            for (k = 0; k < temp_array.length; k++) {
-                testingMessage += emojiNumbers[k];
-                testingMessage += " ";
-                testingMessage += temp_array[k];
-                testingMessage += " ";
-            }
-            sendMessage(message.channel, testingMessage);
-        }
-    }
-
-    if (getMessageLowerCase(message).startsWith(emojiNumbers[0])) {
-        for (var i = 0; i<emojiNumbers.length; i++) {
-            responseWithEmoji(message, emojiNumbers[i]);
-        }
-    }
-
-    /** TEMP CODE */
+    sendEmojiMessage(message);
 
     // Text commands
     if (messageObject != null) {
@@ -266,4 +235,87 @@ function initializeEmbedFields(client, embed) {
     embed['embed']['author']['name']=client.user.username;
     embed['embed']['author']['icon_url']=client.user.avatarURL;
     embed['embed']['footer']['icon_url']=client.user.avatarURL;
+}
+
+function sendEmojiMessage(message) {
+    /** TEMP CODE */
+    var emojiNumbers = [
+        [
+        '❤️',
+        '🤎',
+        '💙',
+        '🧡',
+        '🤍',
+        '💜'],
+        [
+        '1️⃣',
+        '2️⃣',
+        '3️⃣',
+        '4️⃣',
+        '5️⃣',
+        '6️⃣'],
+        [
+        '🔴',
+        '🟤',
+        '🔵',
+        '🟠',
+        '⚪',
+        '🟣'],
+        [
+        '🇦',
+        '🇧',
+        '🇨',
+        '🇩',
+        '🇪',
+        '🇫']
+    ]
+
+    var emojiIndex = 0;
+
+    if (getMessageLowerCase(message) == 'testing') {
+        var voice_commands = startUpInteraction.allVoiceCommands;
+        var i,j,temp_array,chunk=6;
+        for (i = 0, j=voice_commands.length; i<j; i+=chunk) {
+            temp_array = voice_commands.slice(i, i+chunk);
+            testingMessage = "";
+            for (k = 0; k < temp_array.length; k++) {
+                testingMessage += emojiNumbers[emojiIndex][k];
+                testingMessage += " ";
+                testingMessage += temp_array[k];
+                testingMessage += " ";
+            }
+            emojiIndex++;
+            if (emojiIndex > 3) {
+                emojiIndex = 0;
+            }
+            sendMessage(message.channel, testingMessage);
+        }
+    }
+
+    emojiIndex = -1;
+
+    message_lower_case = getMessageLowerCase(message);
+
+    if (message_lower_case.startsWith(emojiNumbers[0][0])) {
+        emojiIndex = 0;
+    } else if (message_lower_case.startsWith(emojiNumbers[1][0])) {
+        emojiIndex = 1;
+    } else if (message_lower_case.startsWith(emojiNumbers[2][0])) {
+        emojiIndex = 2;
+    } else if (message_lower_case.startsWith(emojiNumbers[3][0])) {
+        emojiIndex = 3;
+    }
+
+    timeout_seconds = 10000;
+
+    if (emojiIndex != -1) {
+        for (var i = 0; i<emojiNumbers[emojiIndex].length; i++) {
+            setTimeout(function(message, emojiNumbers, emojiIndex, i) {
+                responseWithEmoji(message, emojiNumbers[emojiIndex][i]);
+            }, timeout_seconds, message, emojiNumbers, emojiIndex, i);
+            timeout_seconds += 10000;
+        }
+    }
+
+    /** TEMP CODE */
 }

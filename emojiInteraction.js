@@ -2,7 +2,6 @@ exports.processEmoji = processEmoji;
 const Connection = require('./connection.js');
 const Response = require('./responseObjects.js');
 
-
 async function processEmoji(reaction, user) {
     message = reaction.message;
     emoji = reaction.emoji.name;
@@ -20,3 +19,4 @@ async function processEmoji(reaction, user) {
         }
     }
 }
+
