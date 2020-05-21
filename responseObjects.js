@@ -205,8 +205,6 @@ exports.responseObject = {
     "!niceshot": "https://gfycat.com/QuarrelsomeUnawareIslandwhistler",
     "nice shot": "https://gfycat.com/QuarrelsomeUnawareIslandwhistler",
     "🏓": "🏓",
-    "regret": "Did you say regret!?",
-    "dab": "Did you say dab!?",
     "!hackerman": "https://giphy.com/gifs/fury-kung-hackerman-QbumCX9HFFDQA",
     //"hihi": "met",
     "!fortnite": "`!afterlose`\n`!afterwin`\n`!beforematch`",

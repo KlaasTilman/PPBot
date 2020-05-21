@@ -7,7 +7,7 @@ const Connection = require('./connection.js');
 const fs = require("fs")
 const textChannelInteraction = require('./textChannelInteraction.js');
 
-var allVoiceCommands = [];
+exports.allVoiceCommands = [];
 
 function initializeBot(client) {
     console.log('The awesome bot made by Klaas Tilman is now online! Woahahoah');
@@ -49,7 +49,7 @@ function makeResponseArrays() {
     var voiceObjectKeys=Object.keys(Response.voiceObject);
     for (var i=0; i<voiceObjectKeys.length; i++) {
         let currentVoiceKey=voiceObjectKeys[i];
-        allVoiceCommands.push(currentVoiceKey.substring(1));
+        exports.allVoiceCommands.push(currentVoiceKey.substring(1));
         // Add 15 last added commands
         if (i>voiceObjectKeys.length-15) {
             textChannelInteraction.categories["Recently added 🆕"].push(" "+currentVoiceKey.substring(1));
@@ -122,7 +122,7 @@ function setSpecificEmbeds() {
 }
 
 function setAlphabeticalEmbed() {
-    allVoiceCommandsSorted = allVoiceCommands.sort();
+    allVoiceCommandsSorted = exports.allVoiceCommands.sort();
     var currentCharacter;
     var currentString = "";
     for (var i=0; i<allVoiceCommandsSorted.length; i++) {

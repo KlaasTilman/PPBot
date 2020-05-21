@@ -45,7 +45,6 @@ exports.fortniteCategories = {
 
 function processMessage(client, message) {
     var messageObject = getMessageType(message, client);
-    console.log(messageObject);
     /*if (message.author.username==="sperd") {
         message.react("🎉");
         message.react("🎈");
@@ -55,8 +54,49 @@ function processMessage(client, message) {
         message.react("1⃣");
     } */
 
+    if (message.author.username == 'PPBot') {
+        //messages_to_delete.push(message);
+    }
+
+    /** TEMP CODE */
+    var emojiNumbers = [
+        '1️⃣',
+        '2️⃣',
+        '3️⃣',
+        '4️⃣',
+        '5️⃣'
+    ]
+
+    if (getMessageLowerCase(message) == 'testing') {
+        var voice_commands = startUpInteraction.allVoiceCommands;
+        var i,j,temp_array,chunk=5;
+        for (i = 0, j=voice_commands.length; i<j; i+=chunk) {
+            temp_array = voice_commands.slice(i, i+chunk);
+            testingMessage = "";
+            for (k = 0; k < temp_array.length; k++) {
+                testingMessage += emojiNumbers[k];
+                testingMessage += " ";
+                testingMessage += temp_array[k];
+                testingMessage += " ";
+            }
+            sendMessage(message.channel, testingMessage);
+        }
+    }
+
+    if (getMessageLowerCase(message).startsWith(emojiNumbers[0])) {
+        for (var i = 0; i<emojiNumbers.length; i++) {
+            responseWithEmoji(message, emojiNumbers[i]);
+        }
+    }
+
+    /** TEMP CODE */
+
     // Text commands
     if (messageObject != null) {
+        if (messageObject.type != EMOJI_COMMAND) {
+            messages_to_delete.push(message);
+        }
+        console.log(messageObject);
         switch (messageObject.type) {
             case CHAT_COMMAND:
                 sendMessage(message.channel, messageObject.response);
@@ -93,19 +133,16 @@ function getMessageType(message, client) {
     message_lower_case = getMessageLowerCase(message);
     message_without_first_letter = message_lower_case.substr(1);
     if(Response.responseObject[message_lower_case] && message.author.username != 'PPBot') {
-        console.log("chat");
         return {
             type: CHAT_COMMAND,
             response: Response.responseObject[message_lower_case]
         };
     } else if (Response.imageObject[message_lower_case]) {
-        console.log("image");
         return {
             type: IMAGE_COMMAND,
             response: './Image files/'+Response.imageObject[message_lower_case]
         };
     } else if (Response.voiceObject[message_lower_case]) {
-        console.log("voice");
         return {
             type: VOICE_COMMAND,
             response: Response.voiceObject[message_lower_case]['file']
@@ -142,7 +179,6 @@ function getMessageType(message, client) {
             response: volume
         }
     } else if (Response.embeds[message_lower_case]) {
-        console.log("embed");
         if (message_lower_case == "!mostused") {
             startUpInteraction.initializeDataAndEmbeds();
         }
@@ -191,7 +227,6 @@ function sendImage(channel, image) {
 }
 
 function responseWithEmoji(message, emoji) {
-    console.log(emoji);
     message.react(emoji)
         .catch(console.error);
 }

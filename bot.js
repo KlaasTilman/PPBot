@@ -1,11 +1,9 @@
 const Discord = require('discord.js');
-const Response = require('./responseObjects.js');
-const Embeds = require('./embeds.js');
 const Private = require('./private.js');
-const Connection = require('./connection.js');
 const voiceChannelInteraction = require('./voiceChannelInteraction.js');
 const textChannelInteraction = require('./textChannelInteraction.js');
 const startUpInteraction = require('./startUpInteraction.js');
+const emojiInteraction = require('./emojiInteraction.js');
 
 const client = new Discord.Client();
 
@@ -42,6 +40,7 @@ client.on('ready', () => {
 /* Emoji reaction listener */
 client.on("messageReactionAdd", function(messageReaction, user){
     console.log(`a reaction is added to a message`);
+    emojiInteraction.processEmoji(messageReaction, user);
 });
 
 /* Message sent listener */
