@@ -76,14 +76,14 @@ var emojiNumbers = [
 
 function processMessage(client, message) {
     var messageObject = getMessageType(message, client);
-    if (message.author.username==="Kizerain") {
+    /*if (message.author.username==="Kizerain") {
         message.react("🎉");
         message.react("🎈");
         message.react("🎊");
         message.react("😃");
         message.react("2⃣");
         message.react("1⃣");
-    } 
+    } */
 
     if (message.author.username == 'PPBot') {
         //messages_to_delete.push(message);
