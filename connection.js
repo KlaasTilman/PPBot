@@ -23,7 +23,7 @@ function logVoiceCommand(command) {
 }
 
 async function handleInstructions(msg, command, volume) {
-	if (msg.author.bot) return undefined;
+	//if (msg.author.bot) return undefined;
 	const serverQueue = queue.get(msg.guild.id);
 	if (command === '!skip') {
 		if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');

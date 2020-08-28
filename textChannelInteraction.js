@@ -1,4 +1,6 @@
 exports.processMessage = processMessage;
+exports.getMessageType = getMessageType;
+exports.addMessageToDelete = addMessageToDelete;
 const Connection = require('./connection.js');
 const Response = require('./responseObjects.js');
 const startUpInteraction = require('./startUpInteraction');
@@ -13,6 +15,8 @@ const RANDOM_COMMAND = 4;
 const VOLUME_COMMAND = 5;
 const INSTRUCTION_COMMAND = 6;
 const EMOJI_COMMAND = 7;
+
+const PERM_MESSAGE = "||permanent message||\n";
 
 /* Data values */
 exports.categoriesString = {
@@ -74,6 +78,11 @@ var emojiNumbers = [
     '🇫']
 ]
 
+var skip_emoji = '⏩';
+var stop_emoji = '⏹️';
+var pause_emoji = '⏸️';
+var resume_emoji = '⏯️';
+
 function processMessage(client, message) {
     var messageObject = getMessageType(message, client);
     /*if (message.author.username==="Kizerain") {
@@ -85,17 +94,18 @@ function processMessage(client, message) {
         message.react("1⃣");
     } */
 
-    if (message.author.username == 'PPBot') {
-        //messages_to_delete.push(message);
-    }
-
     sendEmojiMessage(message);
-    reactToEmojiMessage(message);
+    if (message.author.username == 'PPBot') {
+        reactToEmojiMessage(message);
+        if (!message.content.startsWith(PERM_MESSAGE)) {
+            addMessageToDelete(message);
+        }
+    }
 
     // Text commands
     if (messageObject != null) {
         if (messageObject.type != EMOJI_COMMAND) {
-            messages_to_delete.push(message);
+            addMessageToDelete(message);
         }
         console.log(messageObject);
         switch (messageObject.type) {
@@ -130,8 +140,11 @@ function processMessage(client, message) {
     deleting();
 }
 
-function getMessageType(message, client) {
-    message_lower_case = getMessageLowerCase(message);
+function getMessageType(message, client, message_lower_case) {
+    if (!message_lower_case) {
+        message_lower_case = getMessageLowerCase(message);
+    }
+    console.log(message_lower_case);
     message_without_first_letter = message_lower_case.substr(1);
     if(Response.responseObject[message_lower_case] && message.author.username != 'PPBot') {
         return {
@@ -201,7 +214,7 @@ function getMessageType(message, client) {
             type: RANDOM_COMMAND,
             response: Response.voiceObject[randomItem]['file']
         }
-    } else if (message.mentions.users.array().length > 0 || message.mentions.roles.array().length > 0 || message.mentions.everyone) {
+    } else if (message.mentions && (message.mentions.users.array().length > 0 || message.mentions.roles.array().length > 0 || message.mentions.everyone)) {
         return {
             type: EMOJI_COMMAND,
             response: client.emojis.get(Response.emojiObject["PingReee"])
@@ -294,13 +307,34 @@ function reactToEmojiMessage(message) {
             timeout_seconds += 15000;
         }
     }
+
+    timeout_seconds = 15000;
+
+    if (message_lower_case.startsWith(skip_emoji)) {
+        setTimeout(function(message, skip_emoji) {
+            responseWithEmoji(message, skip_emoji);
+        }, timeout_seconds, message, skip_emoji);
+        setTimeout(function(message, stop_emoji) {
+            responseWithEmoji(message, stop_emoji);
+        }, timeout_seconds + 15000, message, stop_emoji);
+        setTimeout(function(message, pause_emoji) {
+            responseWithEmoji(message, pause_emoji);
+        }, timeout_seconds + 15000, message, pause_emoji);
+        setTimeout(function(message, resume_emoji) {
+            responseWithEmoji(message, resume_emoji);
+        }, timeout_seconds + 15000, message, resume_emoji);
+    }
+}
+
+function addMessageToDelete(message) {
+    messages_to_delete.push(message);
 }
 
 function sendEmojiMessage(message) {
     var emojiIndex = 0;
 
-    if (getMessageLowerCase(message) == 'testing' && message.author.username == 'Klaas') {
-        messages_to_delete.push(message);
+    if (getMessageLowerCase(message) == '!send_emoji_message' && message.author.username == 'Klaas') {
+        addMessageToDelete(message);
         var voice_commands = startUpInteraction.allVoiceCommands;
         var i,j,temp_array,chunk=6;
         for (i = 0, j=voice_commands.length; i<j; i+=chunk) {
@@ -316,8 +350,18 @@ function sendEmojiMessage(message) {
             if (emojiIndex > 3) {
                 emojiIndex = 0;
             }
-            sendMessage(message.channel, testingMessage);
+            sendMessage(message.channel, PERM_MESSAGE + testingMessage);
         }
+    }
+
+    if (getMessageLowerCase(message) == '!send_emoji_instructions' && message.author.username == 'Klaas') {
+        addMessageToDelete(message);
+        var skip_string = skip_emoji + ' SKIP ';
+        var stop_string = stop_emoji + ' STOP ';
+        var pause_string = pause_emoji + ' PAUSE ';
+        var resume_string = resume_emoji + ' RESUME ';
+
+        sendMessage(message.channel, PERM_MESSAGE + skip_string + stop_string + pause_string + resume_string);
     }
 
     /** TEMP CODE */

@@ -39,7 +39,7 @@ client.on('ready', () => {
 
 /* Emoji reaction listener */
 client.on("messageReactionAdd", function(messageReaction, user){
-    emojiInteraction.processEmoji(messageReaction, user);
+    emojiInteraction.processEmoji(messageReaction, user, client);
 });
 
 /* Message sent listener */
