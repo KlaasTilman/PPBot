@@ -186,7 +186,8 @@ exports.joinVoiceChatResponse = {
     "Kizerain": "!wout",
     "Atoxed": "!gjalt",
     "default": "!yaboi",
-    "wednesday": "!wednesday"
+    "wednesday": "!wednesday", 
+    "Eugene": ["!rob", "!rob2", "!rob3"]
 }
 
 exports.responseObject = {
@@ -275,5 +276,6 @@ exports.embeds = {
     "!chat": Embeds.chatCommands,
     "!voicechatcat": Embeds.voiceCommands,
     "!mostused": Embeds.logging,
-    "!voicechat": Embeds.alphaTest
+    "!voicechat": Embeds.alphaTest,
+    "!instructions_suggestions": Embeds.suggestioninstructions
 }

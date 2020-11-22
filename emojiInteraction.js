@@ -15,6 +15,8 @@ const EMOJI_COMMAND = 7;
 async function processEmoji(reaction, user, client) {
     message = reaction.message;
     emoji = reaction.emoji.name;
+    let test = await message.fetch();
+    console.log(test.content);
     if (message.content.includes(emoji)) {
         message_splitted = message.content.split(" ");
         for (var i = 0; i < message_splitted.length; i = i + 2) {
@@ -24,8 +26,6 @@ async function processEmoji(reaction, user, client) {
                 var voice_channel = message.guild.members.get(user.id).voiceChannel;
 
                 var message_object = textChannelInteraction.getMessageType(message, client, text_message.toLowerCase());
-
-                console.log(message_object);
 
                 // Voice command
                 if (voice_channel) {

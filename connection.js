@@ -97,7 +97,7 @@ ${serverQueue.songs.map(song => `**-** ${song}`).join('\n')}
 First argument is the message, second the audioFile to be played, third the command issued and fourth the volume to be set */
 async function handleVoiceCommand(msg, audioFile) { // eslint-disable-line
 	if (msg.author.bot) return undefined;
-	const voiceChannel = msg.member.voiceChannel;
+	const voiceChannel = msg.member.voice.channel;
     if (!voiceChannel) return msg.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
 	const permissions = voiceChannel.permissionsFor(msg.client.user);
 	if (!permissions.has('CONNECT')) {
@@ -168,8 +168,8 @@ function play(guild, song) {
 		return;
 	}
 	
-	const dispatcher=serverQueue.connection.playFile('./Voice files/'+song);
-	dispatcher.on("end", end => {
+	const dispatcher=serverQueue.connection.play('./Voice files/'+song);
+	dispatcher.on("finish", end => {
 		serverQueue.songs.shift();
 		play(guild, serverQueue.songs[0])
 	});

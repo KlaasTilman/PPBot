@@ -24,6 +24,26 @@ exports.commands = {
     }
 }
 
+exports.suggestioninstructions = {
+    embed: {
+    color: 3447003,
+    author: {
+        name: "",
+        icon_url: ""
+    },
+    description: "You can send suggestions to be added to the bot.",
+    fields: [{
+        name: "Command",
+        value: "Do a suggestion as follows \n!suggestion\nlink:<linkname>\ncommandname:<name>\ncategory:<category_name>\nnote:<extra info>"
+      },
+    ],
+    footer: {
+        icon_url: "",
+        text: "© Klaas Tilman",
+    }
+}
+}
+
 exports.allFields = []
 
 exports.allCommands = {embed: {
@@ -100,4 +120,22 @@ exports.logging = {embed: {
         text: "© Klaas Tilman",
     }
 }
+}
+
+exports.suggestion = {
+    embed: {
+        color: 3447003,
+        author: {
+            name: "",
+            icon_url: ""
+        },
+        description: "",
+        fields: [],
+        title: "Suggestion link",
+        url: "",
+        footer: {
+            icon_url: "",
+            text: "",
+        }
+    }
 }

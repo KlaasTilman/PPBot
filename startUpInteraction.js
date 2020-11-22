@@ -4,8 +4,13 @@ exports.initializeDataAndEmbeds = initializeDataAndEmbeds;
 const Response = require('./responseObjects.js');
 const Embeds = require('./embeds.js');
 const Connection = require('./connection.js');
-const fs = require("fs")
+const fs = require("fs");
+const path = require("path");
+const { promisify } = require('util')
+const readdir = promisify(fs.readdir);
+const stat = promisify(fs.stat);
 const textChannelInteraction = require('./textChannelInteraction.js');
+const { timeStamp } = require('console');
 
 exports.allVoiceCommands = [];
 
@@ -15,8 +20,8 @@ function initializeBot(client) {
 
     initializeDataAndEmbeds();
 
-    channel = client.channels.get('456913907068698647');
-    guild = client.guilds.get('456913906414125065');
+    channel = client.channels.cache.get('712360371717144596');
+    guild = client.guilds.cache.get('456913906414125065');
 
     // 12oclock
     setTimeout(function(){ 
@@ -35,14 +40,56 @@ function initializeBot(client) {
             playClock(channel, guild, "9oclock");
         }, dayMillseconds)
     }, leftToTime(21,0,0,0));
+
+    // 9oclock
+    setTimeout(function(){ 
+        playClock(channel, guild, "5uur");
+        var dayMillseconds = 1000 * 60 * 60 * 24;
+        setInterval(function(){ // repeat this every 24 hours
+            playClock(channel, guild, "5uur");
+        }, dayMillseconds)
+    }, leftToTime(17,0,0,0));
 }
 
-function initializeDataAndEmbeds() {
+async function initializeDataAndEmbeds() {
+	await readAllVoiceFiles();
     makeResponseArrays();
     updateLoggingEmbed();
     resetEmbeds();
     setAllEmbeds();
     setSpecificEmbeds();
+}
+
+async function readAllVoiceFiles() {
+	Response.voiceObject = {};
+    dirname = 'Voice files';
+	let directories = await readdir(dirname);
+	const absPath = path.resolve(dirname);
+    for (let directory of directories) {
+		// get file info and store in pathContent
+		try {
+        	let stats = await stat(absPath + '/' + directory)
+        	if (stats.isFile()) {
+            	//
+        	} else if (stats.isDirectory()) {
+            	let files = await readdir(absPath + '/' + directory);
+            	for (let file of files) {
+					extension = path.extname(file);
+					if (extension === '.mp3' || extension === '.wav') {
+						filename = file.slice(0, -4);
+						category = false;
+						category = textChannelInteraction.categoriesString[directory];
+						if (category) {
+							Response.voiceObject['!' + filename] = {file: directory + '\\' + file, categories: [category], categoriesFortnite: []};
+						}
+					}
+        		}
+          	}
+        } catch (err) {
+          console.log(`${err}`);
+        }
+	}
+	return;
 }
 
 function makeResponseArrays() {
@@ -52,7 +99,7 @@ function makeResponseArrays() {
         exports.allVoiceCommands.push(currentVoiceKey.substring(1));
         // Add 15 last added commands
         if (i>voiceObjectKeys.length-15) {
-            textChannelInteraction.categories["Recently added 🆕"].push(" "+currentVoiceKey.substring(1));
+            // textChannelInteraction.categories["Recently added 🆕"].push(" "+currentVoiceKey.substring(1));
         }
         // Push all voice commands
         for (var j=0; j<Response.voiceObject[currentVoiceKey]['categories'].length; j++) {

@@ -4,6 +4,8 @@ exports.addMessageToDelete = addMessageToDelete;
 const Connection = require('./connection.js');
 const Response = require('./responseObjects.js');
 const startUpInteraction = require('./startUpInteraction');
+const Embeds = require('./embeds.js');
+const regex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
 
 var messages_to_delete = [];
 
@@ -15,30 +17,35 @@ const RANDOM_COMMAND = 4;
 const VOLUME_COMMAND = 5;
 const INSTRUCTION_COMMAND = 6;
 const EMOJI_COMMAND = 7;
+const SUGGESTION_COMMAND = 8;
 
-const PERM_MESSAGE = "||permanent message||\n";
+const PERM_MESSAGE = "||p||";
 
 /* Data values */
 exports.categoriesString = {
     "top10": "Top 10",
-    "recentlyadded": "Recently added 🆕",
-    "reaction": "Reaction 😯",
-    "gamen": "Gamen :video_game:",
-    "motivation": "Motivation 💪",
-    "sad": "Sad 😭",
-    "meme": "Meme",
-    "funny": "Funny 😂",
+    //"recentlyadded": "Recently added 🆕",
+    "positivereaction": "Positive Reaction",
+    "negativereaction": "Negative Reaction",
+    "dutchmemes": "Dutch memes",
+    "memes": "Memes",
+    "startofsession": "Start of session",
+    "endofsession": "End of session",
+    "names": "Names",
+    "timespecific": "Time specific"
 }
 
 exports.categories = {
     "Top 10": ["test"],
-    "Recently added 🆕": [],
-    "Reaction 😯": [],
-    "Gamen :video_game:": [],
-    "Motivation 💪": [],
-    "Sad 😭": [],
-    "Meme": [],
-    "Funny 😂": [],
+    //"Recently added 🆕": [],
+    "Positive Reaction": [],
+    "Negative Reaction": [],
+    "Dutch memes": [],
+    "Memes": [],
+    "Start of session": [],
+    "End of session": [],
+    "Names": [],
+    "Time specific": []
 };
 
 exports.fortniteCategories = {
@@ -97,7 +104,7 @@ function processMessage(client, message) {
     sendEmojiMessage(message);
     if (message.author.username == 'PPBot') {
         reactToEmojiMessage(message);
-        if (!message.content.startsWith(PERM_MESSAGE)) {
+        if (!message.content.startsWith(PERM_MESSAGE) && message.embeds.length == 0) {
             addMessageToDelete(message);
         }
     }
@@ -107,7 +114,6 @@ function processMessage(client, message) {
         if (messageObject.type != EMOJI_COMMAND) {
             addMessageToDelete(message);
         }
-        console.log(messageObject);
         switch (messageObject.type) {
             case CHAT_COMMAND:
                 sendMessage(message.channel, messageObject.response);
@@ -133,6 +139,9 @@ function processMessage(client, message) {
             case EMOJI_COMMAND:
                 responseWithEmoji(message, messageObject.response);
                 break;
+            case SUGGESTION_COMMAND:
+                sendMessage(message.channel, messageObject.response);
+                break;
         }
     }
 
@@ -144,7 +153,6 @@ function getMessageType(message, client, message_lower_case) {
     if (!message_lower_case) {
         message_lower_case = getMessageLowerCase(message);
     }
-    console.log(message_lower_case);
     message_without_first_letter = message_lower_case.substr(1);
     if(Response.responseObject[message_lower_case] && message.author.username != 'PPBot') {
         return {
@@ -217,13 +225,55 @@ function getMessageType(message, client, message_lower_case) {
     } else if (message.mentions && (message.mentions.users.array().length > 0 || message.mentions.roles.array().length > 0 || message.mentions.everyone)) {
         return {
             type: EMOJI_COMMAND,
-            response: client.emojis.get(Response.emojiObject["PingReee"])
+            response: client.emojis.cache.get(Response.emojiObject["PingReee"])
         };
     } else if (Response.emojiObject[message_lower_case]) {
         return {
             type: EMOJI_COMMAND,
             response: client.emojis.get(Response.emojiObject[message_lower_case])
         };
+    } else if (message_lower_case.startsWith('!suggestion')) {
+        var suggestionArray=message.content.split(/\r?\n/);
+        let formattedSuggestion = [];
+        for (var i = 0; i < suggestionArray.length; i++) {
+            suggestionArray[i] = suggestionArray[i].split(':');
+            formattedSuggestion[suggestionArray[i][0]] = suggestionArray[i][1];
+            if (suggestionArray[i][0] == 'link' && suggestionArray[i][2]) {
+                formattedSuggestion['link'] += ':' + suggestionArray[i][2];
+                formattedSuggestion['link'] = formattedSuggestion['link'].replace(/\s/g, "");
+            }
+        }
+        if (
+            !formattedSuggestion['link'] || !formattedSuggestion['commandname'] || !formattedSuggestion['category'] || !formattedSuggestion['note']
+            || formattedSuggestion['link'] === '' || formattedSuggestion['commandname'] === '' || formattedSuggestion['category'] === '' || formattedSuggestion['note'] === ''
+            || !isURL(formattedSuggestion['link'])
+        ) {
+            return {
+                type: SUGGESTION_COMMAND,
+                response: 'Suggestion format not correct.'
+            }
+        } 
+        let suggestionEmbed = Embeds.suggestion;
+        suggestionEmbed.embed.discription = formattedSuggestion['note'];
+        suggestionEmbed.embed.url = formattedSuggestion['link'];
+        suggestionEmbed.embed.fields = [];
+        suggestionEmbed.embed.fields.push(
+            {
+                name: "Command name",
+                value: formattedSuggestion['commandname']
+            }
+        );
+        suggestionEmbed.embed.fields.push(
+            {
+                name: "Category",
+                value: formattedSuggestion['category']
+            }
+        );
+        suggestionEmbed.embed.footer.text = 'Suggested by : ' + message.author.username;
+        return {
+            type: SUGGESTION_COMMAND,
+            response: suggestionEmbed
+        }
     }
     return null;
 }
@@ -252,7 +302,7 @@ function sendEmbed(client, channel, embed) {
 
 function deleteMessages() {
     for (var i=0; i<messages_to_delete.length; i++) {
-        messages_to_delete[i].delete(1000);
+        messages_to_delete[i].delete(({ timeout: 1000 }));
     }
     messages_to_delete = [];
 }
@@ -286,14 +336,13 @@ function reactToEmojiMessage(message) {
     var emojiIndex = -1;
 
     var message_lower_case = getMessageLowerCase(message);
-
-    if (message_lower_case.startsWith(emojiNumbers[0][0])) {
+    if (message_lower_case.startsWith(PERM_MESSAGE + emojiNumbers[0][0])) {
         emojiIndex = 0;
-    } else if (message_lower_case.startsWith(emojiNumbers[1][0])) {
+    } else if (message_lower_case.startsWith(PERM_MESSAGE + emojiNumbers[1][0])) {
         emojiIndex = 1;
-    } else if (message_lower_case.startsWith(emojiNumbers[2][0])) {
+    } else if (message_lower_case.startsWith(PERM_MESSAGE + emojiNumbers[2][0])) {
         emojiIndex = 2;
-    } else if (message_lower_case.startsWith(emojiNumbers[3][0])) {
+    } else if (message_lower_case.startsWith(PERM_MESSAGE + emojiNumbers[3][0])) {
         emojiIndex = 3;
     }
 
@@ -310,7 +359,7 @@ function reactToEmojiMessage(message) {
 
     timeout_seconds = 15000;
 
-    if (message_lower_case.startsWith(skip_emoji)) {
+    if (message_lower_case.startsWith(PERM_MESSAGE + skip_emoji)) {
         setTimeout(function(message, skip_emoji) {
             responseWithEmoji(message, skip_emoji);
         }, timeout_seconds, message, skip_emoji);
@@ -365,4 +414,10 @@ function sendEmojiMessage(message) {
     }
 
     /** TEMP CODE */
+}
+
+function isURL(str) {
+    var urlRegex = '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
+    var url = new RegExp(urlRegex, 'i');
+    return str.length < 2083 && url.test(str);
 }
