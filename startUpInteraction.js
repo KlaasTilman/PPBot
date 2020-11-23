@@ -14,11 +14,11 @@ const { timeStamp } = require('console');
 
 exports.allVoiceCommands = [];
 
-function initializeBot(client) {
+async function initializeBot(client) {
     console.log('The awesome bot made by Klaas Tilman is now online! Woahahoah');
     client.user.setActivity('!commands', { type: 'PLAYING' });
 
-    initializeDataAndEmbeds();
+    await initializeDataAndEmbeds();
 
     channel = client.channels.cache.get('712360371717144596');
     guild = client.guilds.cache.get('456913906414125065');
@@ -50,6 +50,23 @@ function initializeBot(client) {
         }, dayMillseconds)
     }, leftToTime(17,0,0,0));
 }
+
+// Calculate time left to a certain time
+function leftToTime(hours, minutes, seconds, milliseconds){
+    var d = new Date();
+    var x = -d + d.setHours(hours,minutes,seconds,milliseconds);
+    if (x < 0) {
+        // Try the next day 
+        x += 86400000;
+    }
+    return (x);
+}
+
+// Play a file in a channel in a guild
+async function playClock(channel, guild, fileName) {
+    console.log(fileName);
+    await Connection.handleFile(Response.voiceObject["!"+fileName]["file"], null, channel, guild);
+} 
 
 async function initializeDataAndEmbeds() {
 	await readAllVoiceFiles();
@@ -237,16 +254,4 @@ function updateLoggingEmbed() {
             value: commandsString
         });
         textChannelInteraction.categories["Top 10"] = top10.reverse();
-}
-
-// Play a file in a channel in a guild
-async function playClock(channel, guild, fileName) {
-    await Connection.handleFile(Response.voiceObject["!"+fileName]["file"], null, channel, guild);
-} 
-
-// Calculate time left to a certain time
-function leftToTime(hours, minutes, seconds, milliseconds){
-    var d = new Date();
-    var x = -d + d.setHours(hours,minutes,seconds,milliseconds);
-    return (x);
 }
