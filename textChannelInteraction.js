@@ -162,7 +162,7 @@ function getMessageType(message, client, message_lower_case) {
     } else if (Response.imageObject[message_lower_case]) {
         return {
             type: IMAGE_COMMAND,
-            response: './Image files/'+Response.imageObject[message_lower_case]
+            response: './Imagefiles/'+Response.imageObject[message_lower_case]
         };
     } else if (Response.voiceObject[message_lower_case]) {
         return {

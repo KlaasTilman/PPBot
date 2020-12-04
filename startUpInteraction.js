@@ -97,7 +97,7 @@ async function initializeDataAndEmbeds() {
 
 async function readAllVoiceFiles() {
 	Response.voiceObject = {};
-    dirname = 'Voice files';
+    dirname = 'Voicefiles';
 	let directories = await readdir(dirname);
 	const absPath = path.resolve(dirname);
     for (let directory of directories) {

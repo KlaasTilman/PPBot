@@ -167,10 +167,10 @@ function play(guild, song) {
 		queue.delete(guild.id);
 		return;
 	}
-	var song_path = require("path").join(__dirname, './Voice files/'+song);
+	var song_path = require("path").join(__dirname, './Voicefiles/'+song);
 	console.log(song_path);
 	console.log(fs.existsSync(song_path));
-	const dispatcher=serverQueue.connection.play('./Voice files/'+song);
+	const dispatcher=serverQueue.connection.play(song_path);
 	dispatcher.on("finish", end => {
 		serverQueue.songs.shift();
 		console.log(serverQueue.songs[0]);
