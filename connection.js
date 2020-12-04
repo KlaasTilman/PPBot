@@ -168,8 +168,6 @@ function play(guild, song) {
 		return;
 	}
 	var song_path = require("path").join(__dirname, './Voicefiles/'+song);
-	console.log(song_path);
-	console.log(fs.existsSync(song_path));
 	const dispatcher=serverQueue.connection.play(song_path);
 	dispatcher.on("finish", end => {
 		serverQueue.songs.shift();
