@@ -26,18 +26,18 @@ async function handleInstructions(msg, command, volume) {
 	//if (msg.author.bot) return undefined;
 	const serverQueue = queue.get(msg.guild.id);
 	if (command === '!skip') {
-		if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
+		if (!msg.member.voice.channel) return msg.channel.send('You are not in a voice channel!');
 		if (!serverQueue) return msg.channel.send('There is nothing playing that I could skip for you.');
 		serverQueue.connection.dispatcher.end('Skip command has been used!');
 		return undefined;
 	} else if (command === '!stop') {
-		if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
+		if (!msg.member.voice.channel) return msg.channel.send('You are not in a voice channel!');
 		if (!serverQueue) return msg.channel.send('There is nothing playing that I could stop for you.');
 		serverQueue.songs = [];
 		serverQueue.connection.dispatcher.end('Stop command has been used!');
 		return undefined;
 	} else if (command === '!volume') {
-		if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
+		if (!msg.member.voice.channel) return msg.channel.send('You are not in a voice channel!');
 		if (!serverQueue) return msg.channel.send('There is nothing playing.');
         if (volume===null) return msg.channel.send(`The current volume is: **${serverQueue.volume}**`);
         switch(volume) {

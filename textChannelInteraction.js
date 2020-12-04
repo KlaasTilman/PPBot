@@ -269,6 +269,12 @@ function getMessageType(message, client, message_lower_case) {
                 value: formattedSuggestion['category']
             }
         );
+        suggestionEmbed.embed.fields.push(
+            {
+                name: "Note",
+                value: formattedSuggestion['note']
+            }
+        );
         suggestionEmbed.embed.footer.text = 'Suggested by : ' + message.author.username;
         return {
             type: SUGGESTION_COMMAND,
@@ -419,5 +425,6 @@ function sendEmojiMessage(message) {
 function isURL(str) {
     var urlRegex = '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
     var url = new RegExp(urlRegex, 'i');
+    console.log(str.length < 2083 && url.test(str));
     return str.length < 2083 && url.test(str);
 }
