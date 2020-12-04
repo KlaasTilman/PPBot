@@ -171,6 +171,7 @@ function play(guild, song) {
 	const dispatcher=serverQueue.connection.play('./Voice files/'+song);
 	dispatcher.on("finish", end => {
 		serverQueue.songs.shift();
+		console.log(serverQueue.songs[0]);
 		play(guild, serverQueue.songs[0])
 	});
 	dispatcher.on('error', error => console.log(error));
