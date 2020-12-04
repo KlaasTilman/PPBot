@@ -167,7 +167,8 @@ function play(guild, song) {
 		queue.delete(guild.id);
 		return;
 	}
-	
+	var songtest = './Voice files/'+song;
+	console.log(fs.existsSync(songtest));
 	const dispatcher=serverQueue.connection.play('./Voice files/'+song);
 	dispatcher.on("finish", end => {
 		serverQueue.songs.shift();
