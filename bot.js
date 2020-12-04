@@ -8,6 +8,7 @@ const emojiInteraction = require('./emojiInteraction.js');
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
 /* All listeners */
+client.on('debug', console.log)
 
 /* Disconnect listener */
 client.on('disconnect', () => console.log('I just disconnected, making sure you know, I will reconnect now...'));
