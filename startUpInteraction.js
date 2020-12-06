@@ -41,6 +41,15 @@ async function initializeBot(client) {
         }, dayMillseconds)
     }, leftToTime(21,0,0,0));
 
+    // 17:30
+    setTimeout(function(){ 
+        playClock(channel, guild, "halfpastfive");
+        var dayMillseconds = 1000 * 60 * 60 * 24;
+        setInterval(function(){ // repeat this every 24 hours
+            playClock(channel, guild, "halfpastfive");
+        }, dayMillseconds)
+    }, leftToTime(17,30,0,0));
+
     // 5 uur
     setTimeout(function(){ 
         playClock(channel, guild, "5uur");
@@ -59,14 +68,14 @@ async function initializeBot(client) {
         }, dayMillseconds)
     }, leftToTime(16,30,0,0));
 
-    // 17:30
+    // 12oclock
     setTimeout(function(){ 
-        playClock(channel, guild, "halfpastfive");
+        playClock(channel, guild, "12oclock");
         var dayMillseconds = 1000 * 60 * 60 * 24;
         setInterval(function(){ // repeat this every 24 hours
-            playClock(channel, guild, "halfpastfive");
+            playClock(channel, guild, "12oclock");
         }, dayMillseconds)
-    }, leftToTime(17,30,0,0));
+    }, leftToTime(12,0,0,0));
 }
 
 // Calculate time left to a certain time
