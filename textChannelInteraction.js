@@ -1,6 +1,7 @@
 exports.processMessage = processMessage;
 exports.getMessageType = getMessageType;
 exports.addMessageToDelete = addMessageToDelete;
+exports.getRandomVoiceCommand = getRandomVoiceCommand;
 const Connection = require('./connection.js');
 const Response = require('./responseObjects.js');
 const startUpInteraction = require('./startUpInteraction');
@@ -49,12 +50,6 @@ exports.categories = {
     "Time specific": []
 };
 
-exports.fortniteCategories = {
-    "beforematch": [],
-    "afterlose": [],
-    "afterwin": []
-};
-
 var emojiNumbers = [
     [
     '❤️',
@@ -86,6 +81,15 @@ var emojiNumbers = [
     '🇫']
 ]
 
+exports.random_command_emojis = {
+    '👍': 'negativereaction',
+    '👎': 'positivereaction',
+    '🇳🇱': 'dutchmemes',
+    '😂': 'memes',
+    '💪': 'startofsession',
+    '👋': 'endofsession'
+}
+
 var skip_emoji = '⏩';
 var stop_emoji = '⏹️';
 var pause_emoji = '⏸️';
@@ -105,6 +109,13 @@ function processMessage(client, message) {
     sendEmojiMessage(message);
     if (message.author.username == 'PPBot') {
         reactToEmojiMessage(message);
+
+        let embed = message.embeds[0];
+
+        if (embed && embed.title == 'All voice commands') {
+            reactToEmbedMessage(message);
+        }
+
         if (!message.content.startsWith(PERM_MESSAGE) && message.embeds.length == 0) {
             addMessageToDelete(message);
         }
@@ -209,19 +220,10 @@ function getMessageType(message, client, message_lower_case) {
             type: EMBED_COMMAND,
             response: Response.embeds[message_lower_case]
         };
-    } else if (exports.fortniteCategories[message_without_first_letter]) {
-        var randomItem = exports.fortniteCategories[message_without_first_letter][Math.floor(Math.random()*exports.fortniteCategories[message_without_first_letter].length)];
-        return {
-            type: RANDOM_COMMAND,
-            response: Response.voiceObject[randomItem]['file']
-        }
     } else if (exports.categoriesString[message_without_first_letter]) {
-        var randomItem = exports.categories[exports.categoriesString[message_without_first_letter]]
-                            [Math.floor(Math.random()*exports.categories[exports.categoriesString[message_without_first_letter]].length)]
-        randomItem="!"+randomItem.replace(/ /g,'');
         return {
             type: RANDOM_COMMAND,
-            response: Response.voiceObject[randomItem]['file']
+            response: getRandomVoiceCommand(message_without_first_letter)
         }
     } else if (message.mentions && (message.mentions.users.array().length > 0 || message.mentions.roles.array().length > 0 || message.mentions.everyone)) {
         return {
@@ -296,6 +298,13 @@ function getMessageType(message, client, message_lower_case) {
     return null;
 }
 
+function getRandomVoiceCommand(category) {
+    var randomItem = exports.categories[exports.categoriesString[category]]
+                            [Math.floor(Math.random()*exports.categories[exports.categoriesString[category]].length)]
+        randomItem="!"+randomItem.replace(/ /g,'');
+    return Response.voiceObject[randomItem]['file'];
+}
+
 function getMessageLowerCase(message) {
     return message.content.toLowerCase();
 }
@@ -348,6 +357,12 @@ function initializeEmbedFields(client, embed) {
     embed['embed']['author']['name']=client.user.username;
     embed['embed']['author']['icon_url']=client.user.avatarURL;
     embed['embed']['footer']['icon_url']=client.user.avatarURL;
+}
+
+async function reactToEmbedMessage(message) {
+    for (const [key, value] of Object.entries(random_command_emojis)) {
+        await message.react(key);
+    }
 }
 
 function reactToEmojiMessage(message) {

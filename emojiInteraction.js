@@ -15,15 +15,14 @@ const EMOJI_COMMAND = 7;
 async function processEmoji(reaction, user, client) {
     message = reaction.message;
     emoji = reaction.emoji.name;
-    let test = await message.fetch();
-    console.log(test.content);
+    var voice_channel = message.guild.members.cache.get(user.id).voice.channel;
     if (message.content.includes(emoji)) {
         message_splitted = message.content.split(" ");
         for (var i = 0; i < message_splitted.length; i = i + 2) {
             var emoji_message = message_splitted[i];
             if (emoji == emoji_message) {
                 var text_message = "!" + message_splitted[i+1];
-                var voice_channel = message.guild.members.get(user.id).voiceChannel;
+                
 
                 var message_object = textChannelInteraction.getMessageType(message, client, text_message.toLowerCase());
 
@@ -41,6 +40,13 @@ async function processEmoji(reaction, user, client) {
                 }
             }
         }
+    }
+
+    let embed = reaction.message.embeds[0];
+
+    if (embed && embed.title == 'All voice commands') {
+        command = textChannelInteraction.getRandomVoiceCommand(textChannelInteraction.random_command_emojis[emoji]);
+        await Connection.handleFile(command, message, voice_channel, message.guild);
     }
 }
 
