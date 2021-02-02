@@ -18,6 +18,7 @@ const VOLUME_COMMAND = 5;
 const INSTRUCTION_COMMAND = 6;
 const EMOJI_COMMAND = 7;
 const SUGGESTION_COMMAND = 8;
+const GROOVY_COMMAND = 9;
 
 const PERM_MESSAGE = "||p||";
 
@@ -279,6 +280,17 @@ function getMessageType(message, client, message_lower_case) {
         return {
             type: SUGGESTION_COMMAND,
             response: suggestionEmbed
+        }
+    } else if (
+        message.author.username == 'Groovy'
+        || message_lower_case.startsWith('-play')
+        || message_lower_case.startsWith('-join')
+        || message_lower_case.startsWith('-remove')
+        || message_lower_case.startsWith('-stop')
+        || message_lower_case.startsWith('-song')
+    ) {
+        return {
+            type: GROOVY_COMMAND
         }
     }
     return null;

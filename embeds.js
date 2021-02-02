@@ -12,7 +12,7 @@ exports.commands = {
           },
           {
             name: "Randomizer",
-            value: "Send `!fortnite` for all randomizer fortnite commands!\n Any of the categories from `!voicechat` can be randomized, send `!categories` for all randomizer categories commands!"
+            value: "Any of the categories from `!voicechat` can be randomized, send `!categories` for all randomizer categories commands!"
           },
         ],
         title: "Documentation",
