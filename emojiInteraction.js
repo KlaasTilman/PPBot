@@ -16,14 +16,13 @@ async function processEmoji(reaction, user, client) {
     message = reaction.message;
     emoji = reaction.emoji.name;
     var voice_channel = message.guild.members.cache.get(user.id).voice.channel;
-    if (message.content.includes(emoji)) {
-        message_splitted = message.content.split(" ");
+    if (message.content.includes(emoji) && user.username != 'PPBot') {
+        message_splitted = message.content.substring(5).split(" ");
         for (var i = 0; i < message_splitted.length; i = i + 2) {
             var emoji_message = message_splitted[i];
             if (emoji == emoji_message) {
                 var text_message = "!" + message_splitted[i+1];
                 
-
                 var message_object = textChannelInteraction.getMessageType(message, client, text_message.toLowerCase());
 
                 // Voice command
@@ -33,7 +32,6 @@ async function processEmoji(reaction, user, client) {
                             await Connection.handleFile(Response.voiceObject[text_message]['file'], message, voice_channel, message.guild);
                             break;
                         case INSTRUCTION_COMMAND:
-                            console.log('instructing');
                             Connection.handleInstructions(message, message_object.response, null);
                             break;
                     }

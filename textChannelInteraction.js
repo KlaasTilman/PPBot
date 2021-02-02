@@ -90,6 +90,11 @@ exports.random_command_emojis = {
     '👋': 'endofsession'
 }
 
+exports.suggestion_emojis = {
+    '👍': '',
+    '👎': '',
+}
+
 var skip_emoji = '⏩';
 var stop_emoji = '⏹️';
 var pause_emoji = '⏸️';
@@ -113,7 +118,11 @@ function processMessage(client, message) {
         let embed = message.embeds[0];
 
         if (embed && embed.title == 'All voice commands') {
-            reactToEmbedMessage(message);
+            reactToEmbedMessage(message, exports.random_command_emojis);
+        }
+
+        if (embed && embed.title == 'Suggestion link') {
+            reactToEmbedMessage(message, exports.suggestion_emojis);
         }
 
         if (!message.content.startsWith(PERM_MESSAGE) && message.embeds.length == 0) {
@@ -359,13 +368,13 @@ function initializeEmbedFields(client, embed) {
     embed['embed']['footer']['icon_url']=client.user.avatarURL;
 }
 
-async function reactToEmbedMessage(message) {
-    for (const [key, value] of Object.entries(exports.random_command_emojis)) {
+async function reactToEmbedMessage(message, emojis) {
+    for (const [key, value] of Object.entries(emojis)) {
         await message.react(key);
     }
 }
 
-function reactToEmojiMessage(message) {
+async function reactToEmojiMessage(message) {
     var emojiIndex = -1;
 
     var message_lower_case = getMessageLowerCase(message);
@@ -383,28 +392,17 @@ function reactToEmojiMessage(message) {
 
     if (emojiIndex != -1) {
         for (var i = 0; i<emojiNumbers[emojiIndex].length; i++) {
-            setTimeout(function(message, emojiNumbers, emojiIndex, i) {
-                responseWithEmoji(message, emojiNumbers[emojiIndex][i]);
-            }, timeout_seconds, message, emojiNumbers, emojiIndex, i);
-            timeout_seconds += 15000;
+            await message.react(emojiNumbers[emojiIndex][i]);
         }
     }
 
     timeout_seconds = 15000;
 
     if (message_lower_case.startsWith(PERM_MESSAGE + skip_emoji)) {
-        setTimeout(function(message, skip_emoji) {
-            responseWithEmoji(message, skip_emoji);
-        }, timeout_seconds, message, skip_emoji);
-        setTimeout(function(message, stop_emoji) {
-            responseWithEmoji(message, stop_emoji);
-        }, timeout_seconds + 15000, message, stop_emoji);
-        setTimeout(function(message, pause_emoji) {
-            responseWithEmoji(message, pause_emoji);
-        }, timeout_seconds + 15000, message, pause_emoji);
-        setTimeout(function(message, resume_emoji) {
-            responseWithEmoji(message, resume_emoji);
-        }, timeout_seconds + 15000, message, resume_emoji);
+        await message.react(skip_emoji);
+        await message.react(stop_emoji);
+        await message.react(pause_emoji);
+        await message.react(resume_emoji);
     }
 }
 
