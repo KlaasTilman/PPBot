@@ -44,7 +44,7 @@ async function processEmoji(reaction, user, client) {
 
     let embed = reaction.message.embeds[0];
 
-    if (embed && embed.title == 'All voice commands') {
+    if (embed && embed.title == 'All voice commands' && user.username != 'PPBot') {
         command = textChannelInteraction.getRandomVoiceCommand(textChannelInteraction.random_command_emojis[emoji]);
         await Connection.handleFile(command, message, voice_channel, message.guild);
     }

@@ -360,7 +360,7 @@ function initializeEmbedFields(client, embed) {
 }
 
 async function reactToEmbedMessage(message) {
-    for (const [key, value] of Object.entries(random_command_emojis)) {
+    for (const [key, value] of Object.entries(exports.random_command_emojis)) {
         await message.react(key);
     }
 }
