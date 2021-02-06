@@ -18,15 +18,14 @@ async function scheduleMusic(channel, guild, musics, hours) {
     for (var i = 0; i < hours.length; i++) {
         var music = musics[Math.floor(Math.random() * musics.length)];
         var minute = Math.floor(Math.random() * 60) + 1;
-        console.log(hours[i] + " : " + minute);
-        console.log(music);
+        console.log(hours[i] + " : " + minute + " := " + music);
         setTimeout(function(){ 
             playClock(channel, guild, music);
             var dayMillseconds = 1000 * 60 * 60 * 24;
             setInterval(function(){ // repeat this every 24 hours
                 playClock(channel, guild, music);
             }, dayMillseconds)
-        }, leftToTime(hours[i], minute,0,0));
+        }, leftToTime(hours[i], minute, 0,0));
     }
 }
 
@@ -41,7 +40,7 @@ async function initializeBot(client) {
 
     feestchannel = client.channels.cache.get('456913907068698647');
 
-    musics = ["bier", "bram", "drinken", "gerard", "johnny", "kikker", "kratje", "nigel", "bier", "bier", "bier", "bier", "bier", "bier", "kratje", "kratje", "kratje", "kratje", "drinken", "drinken", "drinken", "drinken", "drinken"];
+    musics = ["bier", "bram", "drinken", "gerard", "johnny", "kikker", "kratje", "nigel", "bier", "bier", "bier", "bier", "bier", "kratje", "kratje", "kratje", "drinken", "drinken", "drinken", "friday", "friday", "friday", "friday"];
     hours = [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23, 24, 24, 24, 24, 24, 24, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5];
     scheduleMusic(feestchannel, guild, musics, hours);
 
