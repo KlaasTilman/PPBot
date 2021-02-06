@@ -16,10 +16,11 @@ exports.allVoiceCommands = [];
 
 async function scheduleMusic(channel, guild, musics, hours) {
     for (var i = 0; i < hours.length; i++) {
-        var music = musics[Math.floor(Math.random() * musics.length)];
         var minute = Math.floor(Math.random() * 60) + 1;
-        console.log(hours[i] + " : " + minute + " := " + music);
+        console.log(hours[i] + " : " + minute);
         setTimeout(function(){ 
+            let music = musics[Math.floor(Math.random() * musics.length)];
+            console.log(hours[i] + " : " + minute + " := " + music);
             playClock(channel, guild, music);
             var dayMillseconds = 1000 * 60 * 60 * 24;
             setInterval(function(){ // repeat this every 24 hours
