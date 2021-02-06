@@ -25,7 +25,7 @@ async function scheduleMusic(channel, guild, musics, hours) {
             setInterval(function(){ // repeat this every 24 hours
                 playClock(channel, guild, music);
             }, dayMillseconds)
-        }, leftToTime(hours[i], minute, 0,0));
+        }, leftToTime(hours[i], minute, Math.floor(Math.random() * 60) + 1, 0));
     }
 }
 
@@ -41,7 +41,7 @@ async function initializeBot(client) {
     feestchannel = client.channels.cache.get('456913907068698647');
 
     musics = ["bier", "bram", "drinken", "gerard", "johnny", "kikker", "kratje", "nigel", "bier", "bier", "bier", "bier", "bier", "kratje", "kratje", "kratje", "drinken", "drinken", "drinken", "friday", "friday", "friday", "friday"];
-    hours = [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23, 24, 24, 24, 24, 24, 24, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5];
+    hours = [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5];
     scheduleMusic(feestchannel, guild, musics, hours);
 
     // 12oclock
