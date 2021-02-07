@@ -39,11 +39,11 @@ async function initializeBot(client) {
     channel = client.channels.cache.get('712360371717144596'); 
     guild = client.guilds.cache.get('456913906414125065');
 
-    feestchannel = client.channels.cache.get('456913907068698647');
+    /*feestchannel = client.channels.cache.get('456913907068698647');
 
     musics = ["bier", "bram", "drinken", "gerard", "johnny", "kikker", "kratje", "nigel", "bier", "bier", "bier", "bier", "bier", "kratje", "kratje", "kratje", "drinken", "drinken", "drinken", "friday", "friday", "friday", "friday"];
     hours = [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5];
-    scheduleMusic(feestchannel, guild, musics, hours);
+    scheduleMusic(feestchannel, guild, musics, hours);*/
 
     // 12oclock
     setTimeout(function(){ 
