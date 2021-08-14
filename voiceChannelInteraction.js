@@ -24,6 +24,9 @@ function interactWithVoiceChannel(oldState, newState) {
 }
 
 async function playEventFiles(voiceChannel, guild) {
+    if (getToday()=='Tuesday') {
+        await Connection.handleFile(Response.voiceObject["!tuesday"]["file"], null, voiceChannel, guild);
+    }
     if (getToday()=='Wednesday') {
         await Connection.handleFile(Response.voiceObject["!wednesday"]["file"], null, voiceChannel, guild);
     }
