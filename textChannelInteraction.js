@@ -299,6 +299,8 @@ function getMessageType(message, client, message_lower_case) {
         || message_lower_case.startsWith('-remove')
         || message_lower_case.startsWith('-stop')
         || message_lower_case.startsWith('-song')
+        || message_lower_case.startsWith('-skip')
+        || message_lower_case.startsWith('-queue')
     ) {
         return {
             type: GROOVY_COMMAND
