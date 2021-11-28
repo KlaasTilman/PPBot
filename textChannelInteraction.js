@@ -102,14 +102,15 @@ var resume_emoji = '⏯️';
 
 function processMessage(client, message) {
     var messageObject = getMessageType(message, client);
-    /*if (message.author.username==="Kizerain") {
+    if (message.author.username==="sperd") {
         message.react("🎉");
         message.react("🎈");
         message.react("🎊");
         message.react("😃");
-        message.react("2⃣");
-        message.react("1⃣");
-    } */
+        message.react("2️⃣");
+        message.react("4️⃣");
+        message.react(":POG:")
+    } 
 
     sendEmojiMessage(message);
     if (message.author.username == 'PPBot') {
