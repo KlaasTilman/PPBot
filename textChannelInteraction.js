@@ -102,7 +102,7 @@ var resume_emoji = '⏯️';
 
 function processMessage(client, message) {
     var messageObject = getMessageType(message, client);
-    if (message.author.username==="sperd") {
+    if (false) {
         message.react("🎉");
         message.react("🎈");
         message.react("🎊");
