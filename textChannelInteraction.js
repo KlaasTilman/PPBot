@@ -294,16 +294,16 @@ function getMessageType(message, client, message_lower_case) {
             response: suggestionEmbed
         }
     } else if (
-        message.author.username == 'Octave'
-        || message_lower_case.startsWith('_play')
-        || message_lower_case.startsWith('_leave')
-        || message_lower_case.startsWith('_playnext')
-        || message_lower_case.startsWith('_pause')
-        || message_lower_case.startsWith('_volume')
-        || message_lower_case.startsWith('_stop')
-        || message_lower_case.startsWith('_skip')
-        || message_lower_case.startsWith('resume')
-        || message_lower_case.startsWith('_queue')
+        message.author.username == 'FredBoat♪♪'
+        || message_lower_case.startsWith(';;play')
+        || message_lower_case.startsWith(';;volume')
+        || message_lower_case.startsWith(';;resume')
+        || message_lower_case.startsWith(';;history')
+        || message_lower_case.startsWith(';;skip')
+        || message_lower_case.startsWith(';;stop')
+        || message_lower_case.startsWith(';;pause')
+        || message_lower_case.startsWith(';;restart')
+        || message_lower_case.startsWith(';;commands')
     ) {
         return {
             type: GROOVY_COMMAND
