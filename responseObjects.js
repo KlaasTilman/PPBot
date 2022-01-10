@@ -188,7 +188,8 @@ exports.joinVoiceChatResponse = {
     "default": "!yaboi",
     "wednesday": "!wednesday", 
     "Eugene": ["!rob", "!rob2", "!rob3"],
-    "Glazio": "!mikal"
+    "Glazio": "!mikal",
+    "Mr_Pranger": "!max"
 }
 
 exports.responseObject = {
